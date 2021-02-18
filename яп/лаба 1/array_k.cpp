@@ -78,6 +78,7 @@ int main()
         double x;
         cout << "Enter the element you want to delete: "; cin >> x;
         zd8(arr, n, x);
+        system("pause");
         break;
       }
     }
@@ -224,7 +225,7 @@ void zd8(double*& arr, int &n, double x)
     delete[] arr;
     arr = buff;
   }
-  else cout << "error";
+  else cout << "element not found" << endl;
 }
 int check_n()
 {
