@@ -15,6 +15,11 @@ using namespace std;
 int main()
 {
   int n = check_n();
+  if (!n)
+  {
+    cout << "the file data is incorrect" << endl;
+    return 0;
+  }
   double* arr = createarr(n);
   fillarr(arr, n);
   double number;
