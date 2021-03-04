@@ -5,11 +5,10 @@
 #include <ctime>
 #include <fstream>
 using namespace std;
-int GetN(); // получение размера
-void NewMatr(double**& M, int n, int m); // выделение памяти
-void DelMatr(double**& M, int n, int m); // освобождение памяти
-void GetMatr(double** M, int n, int m); // считывание с экрана
-void PrintMatr(double** M, int n, int m, const char* namematr); // вывод на экран
+int GetN();
+void NewMatr(double**& M, int n, int m);
+void DelMatr(double**& M, int n, int m);
+void PrintMatr(double** M, int n, int m, const char* namematr);
 void PrintVect(double* x, int n, const char* namematr);
 void minor(double**& M, int n, int m);
 void reshuffle(double**& M, int n, int m, int k);
@@ -20,16 +19,14 @@ int main()
 {
   int n;
   cout << "Enter size matrix: "; n = GetN();
-  int m = n;
+  int m = n + 1;
   double **A;
   double *x = new double [n];
   NewMatr(A, n, m);
-  //GetMatr(A, n, m);
   test(A, n, m);
   PrintMatr(A, n, m, "A");
-  minor(A, n, m);
-  cout << "det = " << det(A, n, m) << endl;
   Solve(A, x, n, m);
+  cout << "det = " << det(A, n, m) << endl;
   PrintVect(x, n, "x");
   DelMatr(A, n, m);
   delete [] x;
@@ -62,13 +59,6 @@ void DelMatr(double**& M, int n, int m)
     delete [] M[i];
   delete [] M;
 }
-void GetMatr(double** M, int n, int m)
-{
-  cout << "Enter matrix, sized " << n <<" x "<< m << " : " << endl;
-  for(int i = 0; i < n; i++)
-    for(int j = 0; j < m; j++)
-      cin >> M[i][j];
-}
 void PrintMatr(double** M, int n, int m, const char* namematr)
 {
   cout << endl << " " << namematr << ":" << endl;
@@ -93,39 +83,38 @@ void PrintVect(double* x, int n, const char* namematr)
 void reshuffle(double**& M, int n, int m, int k)
 {
   bool metka = 0;
-  for (int i = k + 1; i < m; i++)
+  for (int i = k + 1; i < n; i++)
   {
-    if (M[k][i] != 0)
+    if (M[i][k] != 0)
     {
       metka = true;
       double temp;
-      for (int i1 = 0; i1 < n; i1++)
+      for (int i1 = 0; i1 < m; i1++)
       {
-        temp = M[i1][k];
-        M[i1][k] = M[i1][i];
-        M[i1][i] = temp;
+        temp = M[k][i1];
+        M[k][i1] = M[i][i1];
+        M[i][i1] = temp;
       }
       break;
     }
   }
   if (!metka)
   {
-    for (int i = k + 1; i < n; i++)
+    for (int i = k + 1; i < m; i++)
     {
-      if (M[i][k] != 0)
+      if (M[k][i] != 0)
       {
         double temp;
-        for (int i1 = 0; i1 < m; i1++)
+        for (int i1 = 0; i1 < n; i1++)
         {
-          temp = M[k][i1];
-          M[k][i1] = M[i][i1];
-          M[i][i1] = temp;
+          temp = M[i1][k];
+          M[i1][k] = M[i1][i];
+          M[i1][i] = temp;
         }
         break;
       }
     }
   }
-  //PrintMatr(M, n, m, "res");
 }
 void minor(double**& M, int n, int m)
 {
@@ -139,8 +128,8 @@ void minor(double**& M, int n, int m)
     {
       M[j][i] = 0;
     }
-    //PrintMatr(M, n, m, "res");
   }
+  PrintMatr(M, n, m, "M");
 }
 void Solve(double **&M, double *x, int n, int m)
 {
@@ -183,8 +172,8 @@ double test(double**& M, int n, int m)
     {
       double a,b;
       srand(time(0));
-      a = -100;
-      b = 100;
+      a = -10;
+      b = 10;
       for(int i = 0; i < n; i++)
         for(int j = 0; j < m; j++)
           {
