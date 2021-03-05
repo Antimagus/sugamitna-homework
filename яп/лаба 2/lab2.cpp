@@ -10,11 +10,11 @@ void NewMatr(double**& M, int n, int m);
 void DelMatr(double**& M, int n, int m);
 void PrintMatr(double** M, int n, int m, const char* namematr);
 void PrintVect(double* x, int n, const char* namematr);
-void minor(double**& M, int n, int m);
+bool minor(double**& M, int n, int m);
 void reshuffle(double**& M, int n, int m, int k);
-void Solve(double **&M, double *x, int n, int m);
+bool Solve(double **&M, double *x, int n, int m);
 double det(double** M, int n, int m);
-double test(double**& M, int n, int m);
+void test(double**& M, int n, int m);
 void clone(double**& M, int n, int m, double** M1);
 double check(double** M1, int n, int m, double *x);
 int main()
@@ -30,10 +30,12 @@ int main()
   NewMatr(A1, n, m);
   clone(A, n, m, A1);
   PrintMatr(A, n, m, "A");
-  Solve(A, x, n, m);
+  if (Solve(A, x, n, m))
+  {
+    PrintVect(x, n, "x");
+    cout << "epsilon = " << check(A1, n, m, x) << endl;
+  }
   cout << "det = " << det(A, n, m) << endl;
-  PrintVect(x, n, "x");
-  cout << "epsilon = " << check(A1, n, m, x);
   DelMatr(A, n, m);
   DelMatr(A1, n, m);
   delete [] x;
@@ -107,7 +109,7 @@ void reshuffle(double**& M, int n, int m, int k)
   }
   if (!metka)
   {
-    for (int i = k + 1; i < m; i++)
+    for (int i = k + 1; i < n; i++)
     {
       if (M[k][i] != 0)
       {
@@ -123,11 +125,12 @@ void reshuffle(double**& M, int n, int m, int k)
     }
   }
 }
-void minor(double**& M, int n, int m)
+bool minor(double**& M, int n, int m)
 {
   for (int  i = 0; i < n ; i++)
   {
     if (M[i][i] == 0) reshuffle(M, n, m, i);
+    if (M[i][i] == 0) return false;
     for (int i1 = i + 1; i1 < n; i1++)
       for (int i2 = i + 1; i2 < m; i2++)
         M[i1][i2] = M[i][i] * M[i1][i2] - M[i][i2] * M[i1][i];
@@ -137,11 +140,12 @@ void minor(double**& M, int n, int m)
     }
   }
   PrintMatr(M, n, m, "M");
+  return true;
 }
-void Solve(double **&M, double *x, int n, int m)
+bool Solve(double **&M, double *x, int n, int m)
 {
   double res = 0;
-  minor(M, n, m);
+  if (!minor(M, n, m)) return false;
   for(int i = n - 1; i >= 0; i--)
   {
     res = 0;
@@ -150,6 +154,7 @@ void Solve(double **&M, double *x, int n, int m)
     res += M[i][n];
     x[i] = res / M[i][i];
   }
+  return true;
 }
 double det(double** M, int n, int m)
 {
@@ -160,7 +165,7 @@ double det(double** M, int n, int m)
   }
   return det;
 }
-double test(double**& M, int n, int m)
+void test(double**& M, int n, int m)
 {
   int k;
   cout << "Enter number test: "; cin >> k;
