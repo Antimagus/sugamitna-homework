@@ -34,7 +34,7 @@ int main()
   if (Solve(A, x, n, m, Det))
   {
     PrintVect(x, n, "x");
-    cout << "epsilon = " << check(A1, n, m, x) << endl;
+    cout << "epsilon = " << check(A1, n, m, x) << endl << endl;
   }
   else cout << "no solutions" << endl;
   cout << "det = " << Det * det(A, n, m) << endl;
@@ -145,6 +145,7 @@ double det(double** M, int n, int m)
   double det = 1;
   for(int i = 0; i < n; i++)
   {
+    if (M[i][i] == 0) return 0;
     det *= M[i][i] / pow(M[i][i], n - 1 - i);
   }
   return det;
