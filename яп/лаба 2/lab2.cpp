@@ -10,9 +10,9 @@ void NewMatr(double**& M, int n, int m);
 void DelMatr(double**& M, int n, int m);
 void PrintMatr(double** M, int n, int m, const char* namematr);
 void PrintVect(double* x, int n, const char* namematr);
-bool minor(double**& M, int n, int m);
-void reshuffle(double**& M, int n, int m, int k);
-bool Solve(double **&M, double *x, int n, int m);
+bool minor(double**& M, int n, int m, double &Det);
+void reshuffle(double**& M, int n, int m, int k, double &Det);
+bool Solve(double **&M, double *x, int n, int m, double &Det);
 double det(double** M, int n, int m);
 void test(double**& M, int n, int m);
 void clone(double**& M, int n, int m, double** M1);
@@ -20,6 +20,7 @@ double check(double** M1, int n, int m, double *x);
 int main()
 {
   int n;
+  double Det = 1;
   cout << "Enter size matrix: "; n = GetN();
   int m = n + 1;
   double **A;
@@ -30,12 +31,13 @@ int main()
   NewMatr(A1, n, m);
   clone(A, n, m, A1);
   PrintMatr(A, n, m, "A");
-  if (Solve(A, x, n, m))
+  if (Solve(A, x, n, m, Det))
   {
     PrintVect(x, n, "x");
     cout << "epsilon = " << check(A1, n, m, x) << endl;
   }
-  cout << "det = " << det(A, n, m) << endl;
+  else cout << "no solutions" << endl;
+  cout << "det = " << Det * det(A, n, m) << endl;
   DelMatr(A, n, m);
   DelMatr(A1, n, m);
   delete [] x;
@@ -89,14 +91,12 @@ void PrintVect(double* x, int n, const char* namematr)
     }
     cout << endl;
 }
-void reshuffle(double**& M, int n, int m, int k)
+void reshuffle(double**& M, int n, int m, int k, double &Det)
 {
-  bool metka = 0;
   for (int i = k + 1; i < n; i++)
   {
     if (M[i][k] != 0)
     {
-      metka = true;
       double temp;
       for (int i1 = 0; i1 < m; i1++)
       {
@@ -104,32 +104,16 @@ void reshuffle(double**& M, int n, int m, int k)
         M[k][i1] = M[i][i1];
         M[i][i1] = temp;
       }
+      Det *= -1;
       break;
     }
   }
-  if (!metka)
-  {
-    for (int i = k + 1; i < n; i++)
-    {
-      if (M[k][i] != 0)
-      {
-        double temp;
-        for (int i1 = 0; i1 < n; i1++)
-        {
-          temp = M[i1][k];
-          M[i1][k] = M[i1][i];
-          M[i1][i] = temp;
-        }
-        break;
-      }
-    }
-  }
 }
-bool minor(double**& M, int n, int m)
+bool minor(double**& M, int n, int m, double &Det)
 {
   for (int  i = 0; i < n ; i++)
   {
-    if (M[i][i] == 0) reshuffle(M, n, m, i);
+    if (M[i][i] == 0) reshuffle(M, n, m, i, Det);
     if (M[i][i] == 0) return false;
     for (int i1 = i + 1; i1 < n; i1++)
       for (int i2 = i + 1; i2 < m; i2++)
@@ -142,10 +126,10 @@ bool minor(double**& M, int n, int m)
   PrintMatr(M, n, m, "M");
   return true;
 }
-bool Solve(double **&M, double *x, int n, int m)
+bool Solve(double **&M, double *x, int n, int m, double &Det)
 {
   double res = 0;
-  if (!minor(M, n, m)) return false;
+  if (!minor(M, n, m, Det)) return false;
   for(int i = n - 1; i >= 0; i--)
   {
     res = 0;
