@@ -15,20 +15,27 @@ void reshuffle(double**& M, int n, int m, int k);
 void Solve(double **&M, double *x, int n, int m);
 double det(double** M, int n, int m);
 double test(double**& M, int n, int m);
+void clone(double**& M, int n, int m, double** M1);
+double check(double** M1, int n, int m, double *x);
 int main()
 {
   int n;
   cout << "Enter size matrix: "; n = GetN();
   int m = n + 1;
   double **A;
+  double **A1;
   double *x = new double [n];
   NewMatr(A, n, m);
   test(A, n, m);
+  NewMatr(A1, n, m);
+  clone(A, n, m, A1);
   PrintMatr(A, n, m, "A");
   Solve(A, x, n, m);
   cout << "det = " << det(A, n, m) << endl;
   PrintVect(x, n, "x");
+  cout << "epsilon = " << check(A1, n, m, x);
   DelMatr(A, n, m);
+  DelMatr(A1, n, m);
   delete [] x;
   x = NULL;
   return 0;
@@ -47,14 +54,14 @@ int GetN()
 }
 void NewMatr(double**& M, int n, int m)
 {
-  cout << "\t-New int matr-" << endl;
+  //cout << "\t-New int matr-" << endl;
   M = new double*[n];
   for(int i = 0; i < n; i++)
     M[i] = new double [m];
 }
 void DelMatr(double**& M, int n, int m)
 {
-  cout << "\t-Delete int matr-"<< endl;
+  //cout << "\t-Delete int matr-"<< endl;
   for(int i = 0; i < n; i++)
     delete [] M[i];
   delete [] M;
@@ -204,4 +211,23 @@ double test(double**& M, int n, int m)
       break;
     }
   }
+}
+void clone (double**& M, int n, int m, double** M1)
+{
+  for(int i = 0; i < n; i++)
+    for(int j = 0; j < m; j++)
+      M1[i][j] = M[i][j];
+}
+double check(double** M1, int n, int m, double *x)
+{
+  double epsilon = 0;
+  double s;
+  for (int i = 0; i < n; i++)
+  {
+    s = 0;
+    for (int j = 0; j < m - 1; j++)
+      s += M1[i][j] * x[i];
+    if (fabs(s - M1[i][m]) > epsilon) epsilon = fabs(s - M1[i][m]);
+  }
+  return epsilon;
 }
