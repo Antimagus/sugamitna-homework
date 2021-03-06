@@ -17,6 +17,7 @@ double det(double** M, int n, int m);
 void test(double**& M, int n, int m);
 void clone(double**& M, int n, int m, double** M1);
 double check(double** M1, int n, int m, double *x);
+void reverb(double** A, int n, int m, double &Det, double**& rev);
 int main()
 {
   int n;
@@ -25,11 +26,13 @@ int main()
   int m = n + 1;
   double **A;
   double **A1;
+  double **rev;
   double *x = new double [n];
   NewMatr(A, n, m);
   test(A, n, m);
   NewMatr(A1, n, m);
   clone(A, n, m, A1);
+  NewMatr(rev, n, n);
   PrintMatr(A, n, m, "A");
   if (Solve(A, x, n, m, Det))
   {
@@ -38,8 +41,11 @@ int main()
   }
   else cout << "no solutions" << endl;
   cout << "det = " << Det * det(A, n, m) << endl;
+  reverb(A1, n, m, Det, rev);
+  PrintMatr(rev, n, n, "rev");
   DelMatr(A, n, m);
   DelMatr(A1, n, m);
+  DelMatr(rev, n, n);
   delete [] x;
   x = NULL;
   return 0;
@@ -58,14 +64,12 @@ int GetN()
 }
 void NewMatr(double**& M, int n, int m)
 {
-  //cout << "\t-New int matr-" << endl;
   M = new double*[n];
   for(int i = 0; i < n; i++)
     M[i] = new double [m];
 }
 void DelMatr(double**& M, int n, int m)
 {
-  //cout << "\t-Delete int matr-"<< endl;
   for(int i = 0; i < n; i++)
     delete [] M[i];
   delete [] M;
@@ -76,7 +80,7 @@ void PrintMatr(double** M, int n, int m, const char* namematr)
   for(int i = 0; i < n; i++)
     {
       for(int j = 0; j < m; j++)
-        cout << setw(10) << M[i][j];
+        cout << setw(15) << M[i][j];
       cout << endl;
     }
     cout << endl;
@@ -123,7 +127,6 @@ bool minor(double**& M, int n, int m, double &Det)
       M[j][i] = 0;
     }
   }
-  PrintMatr(M, n, m, "M");
   return true;
 }
 bool Solve(double **&M, double *x, int n, int m, double &Det)
@@ -202,7 +205,7 @@ void test(double**& M, int n, int m)
     }
   }
 }
-void clone (double**& M, int n, int m, double** M1)
+void clone(double**& M, int n, int m, double** M1)
 {
   for(int i = 0; i < n; i++)
     for(int j = 0; j < m; j++)
@@ -212,12 +215,33 @@ double check(double** M1, int n, int m, double *x)
 {
   double epsilon = 0;
   double s;
-  for (int i = 0; i < n; i++)
+  for(int i = 0; i < n; i++)
   {
     s = 0;
-    for (int j = 0; j < m - 1; j++)
-      s += M1[i][j] * x[i];
-    if (fabs(s - M1[i][m]) > epsilon) epsilon = fabs(s - M1[i][m]);
+    for(int k = 0; k < m - 1; k++)
+      s += M1[i][k] * x[k];
+    if (fabs(M1[i][m] - s) > epsilon) epsilon = fabs(s - M1[i][m]);
   }
   return epsilon;
+}
+void reverb(double** M, int n, int m, double &Det, double**& rev)
+{
+  double *x = new double [n];
+  for(int i = 0; i < n; i++)
+  {
+    double** buff;
+    NewMatr(buff, n, m);
+    clone(M, n, m, buff);
+    for(int j = 0; j < n; j++)
+    {
+      if (i == j) buff[j][m - 1] = 1;
+      else buff[j][m - 1] = 0;
+    }
+    Solve(buff, x, n, m, Det);
+    for(int j = 0; j < n; j++)
+      rev[j][i] = x[j];
+    DelMatr(buff, n, m);
+  }
+  delete [] x;
+  x = NULL;
 }
