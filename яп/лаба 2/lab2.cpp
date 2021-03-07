@@ -223,7 +223,7 @@ double check(double** M1, int n, int m, double *x)
     s = 0;
     for(int k = 0; k < m - 1; k++)
       s += M1[i][k] * x[k];
-    if (fabs(M1[i][m] - s) > epsilon) epsilon = fabs(s - M1[i][m]);
+    if (fabs(M1[i][m - 1] - s) > epsilon) epsilon = fabs(M1[i][m - 1] - s);
   }
   return epsilon;
 }
