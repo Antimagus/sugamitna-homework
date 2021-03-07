@@ -17,7 +17,7 @@ double det(double** M, int n, int m);
 void test(double**& M, int n, int m);
 void clone(double**& M, int n, int m, double** M1);
 double check(double** M1, int n, int m, double *x);
-void reverb(double** A, int n, int m, double &Det, double**& rev);
+bool reverb(double** A, int n, int m, double &Det, double**& rev);
 int main()
 {
   int n;
@@ -41,8 +41,11 @@ int main()
   }
   else cout << "no solutions" << endl;
   cout << "det = " << Det * det(A, n, m) << endl;
-  reverb(A1, n, m, Det, rev);
-  PrintMatr(rev, n, n, "rev");
+  if (reverb(A1, n, m, Det, rev))
+  {
+    PrintMatr(rev, n, n, "rev");
+  }
+  else cout << "no reverb" << endl;
   DelMatr(A, n, m);
   DelMatr(A1, n, m);
   DelMatr(rev, n, n);
@@ -224,9 +227,10 @@ double check(double** M1, int n, int m, double *x)
   }
   return epsilon;
 }
-void reverb(double** M, int n, int m, double &Det, double**& rev)
+bool reverb(double** M, int n, int m, double &Det, double**& rev)
 {
   double *x = new double [n];
+  bool metka = true;
   for(int i = 0; i < n; i++)
   {
     double** buff;
@@ -237,11 +241,12 @@ void reverb(double** M, int n, int m, double &Det, double**& rev)
       if (i == j) buff[j][m - 1] = 1;
       else buff[j][m - 1] = 0;
     }
-    Solve(buff, x, n, m, Det);
+    if (!Solve(buff, x, n, m, Det)) metka = false;
     for(int j = 0; j < n; j++)
       rev[j][i] = x[j];
     DelMatr(buff, n, m);
   }
   delete [] x;
   x = NULL;
+  return metka;
 }
