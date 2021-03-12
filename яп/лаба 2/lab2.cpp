@@ -40,7 +40,7 @@ int main()
     PrintVect(x, n, "x");
     cout << "epsilon = " << check(A1, n, m, x) << endl << endl;
   }
-  else cout << "no solutions" << endl;
+  else cout << "no single solution" << endl;
   cout << "det = " << Det * det(A, n, m) << endl;
   if (reverb(A1, n, m, Det, rev))
   {
