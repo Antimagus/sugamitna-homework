@@ -18,6 +18,7 @@ void test(double**& M, int n, int m);
 void clone(double**& M, int n, int m, double** M1);
 double check(double** M1, int n, int m, double *x);
 bool reverb(double** A, int n, int m, double &Det, double**& rev);
+void Mult(double** M1, double** M2, int n1, int m1, int n2, int m2);
 int main()
 {
   int n;
@@ -44,6 +45,7 @@ int main()
   if (reverb(A1, n, m, Det, rev))
   {
     PrintMatr(rev, n, n, "rev");
+    Mult(A1, rev, n, m - 1, n, n);
   }
   else cout << "no reverb" << endl;
   DelMatr(A, n, m);
@@ -203,7 +205,8 @@ void test(double**& M, int n, int m)
     {
       for(int i = 0; i < n; i++)
         for(int j = 0; j < m; j++)
-          M[i][j] = 1. / (i + j + 1);
+          if (j == (m - 1)) M[i][j] = 1;
+          else M[i][j] = 1. / (i + j + 1);
       break;
     }
   }
@@ -249,4 +252,25 @@ bool reverb(double** M, int n, int m, double &Det, double**& rev)
   delete [] x;
   x = NULL;
   return metka;
+}
+void Mult(double** M1, double** M2, int n1, int m1, int n2, int m2)
+{
+  double** buff;
+  NewMatr(buff, n1, m2);
+  double S;
+  if(m1 != n2)
+  {
+    cout << "error" << endl;
+    DelMatr(buff, n1, m2);
+  }
+  for(int i = 0; i < n1; i++)
+    for(int j = 0; j < m2; j++)
+    {
+      S = 0;
+      for(int k = 0; k < m1; k++)
+        S += M1[i][k] * M2[k][j];
+      buff[i][j] = S;
+    }
+  PrintMatr(buff, n1, m2, "proverka");
+  DelMatr(buff, n1, m2);
 }
