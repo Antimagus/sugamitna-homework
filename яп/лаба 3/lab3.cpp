@@ -74,6 +74,7 @@ int main()
 {
   MyStack S;
   MyStack V;
+  V.Count = 0;
   string Model;
   int RAM, Memory, Battery;
   ifstream file("phone.txt");
