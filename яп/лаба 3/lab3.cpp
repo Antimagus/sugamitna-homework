@@ -18,11 +18,11 @@ struct MyStack
   };
   Node *Top = NULL;
   int Count;
-  bool Push(string, int, int, int);
-  bool Pop(string&, int&, int&, int&);
+  bool Push(phone);
+  bool Pop(phone&);
   void Info();
 };
-bool MyStack::Push(string Model, int RAM, int Memory, int Battery)
+bool MyStack::Push(phone dt)
 {
   if(!Top)
   {
@@ -38,20 +38,20 @@ bool MyStack::Push(string Model, int RAM, int Memory, int Battery)
     Top = temp;
     Count++;
   }
-  Top -> data.Model = Model;
-  Top -> data.RAM = RAM;
-  Top -> data.Memory = Memory;
-  Top -> data.Battery = Battery;
+  Top -> data.Model = dt.Model;
+  Top -> data.RAM = dt.RAM;
+  Top -> data.Memory = dt.Memory;
+  Top -> data.Battery = dt.Battery;
   return true;
 }
-bool MyStack::Pop(string &Model, int &RAM, int &Memory, int &Battery)
+bool MyStack::Pop(phone& dt)
 {
   if(!Top) return false;
   Node *temp = Top -> prev;
-  Model = Top -> data.Model;
-  RAM = Top -> data.RAM;
-  Memory = Top -> data.Memory;
-  Battery = Top -> data.Battery;
+  dt.Model = Top -> data.Model;
+  dt.RAM = Top -> data.RAM;
+  dt.Memory = Top -> data.Memory;
+  dt.Battery = Top -> data.Battery;
   delete Top;
   Top = temp;
   Count--;
@@ -72,21 +72,20 @@ void MyStack::Info()
 }
 void print(MyStack &S, MyStack &V)
 {
-  string Model;
-  int RAM, Memory, Battery;
+  phone dt;
   while(S.Count)
   {
-    S.Pop(Model, RAM, Memory, Battery);
-    cout <<"\tModel = " << Model << endl;
-    cout <<"\tRAM = " << RAM << endl;
-    cout <<"\tMemory = " << Memory << endl;
-    cout <<"\tBattery = " << Battery << endl << endl;
-    V.Push(Model, RAM, Memory, Battery);
+    S.Pop(dt);
+    cout <<"\tModel = " << dt.Model << endl;
+    cout <<"\tRAM = " << dt.RAM << endl;
+    cout <<"\tMemory = " << dt.Memory << endl;
+    cout <<"\tBattery = " << dt.Battery << endl << endl;
+    V.Push(dt);
   }
   while(V.Count)
   {
-    V.Pop(Model, RAM, Memory, Battery);
-    S.Push(Model, RAM, Memory, Battery);
+    V.Pop(dt);
+    S.Push(dt);
   }
 }
 int main()
@@ -95,15 +94,14 @@ int main()
   MyStack V;
   S.Count = 0;
   V.Count = 0;
-  string Model;
-  int RAM, Memory, Battery;
+  phone dt;
   ifstream file("phone.txt");
   string line;
   while(getline(file, line))
   {
     istringstream line_F(line);
-    line_F >> Model >> RAM >> Memory >> Battery;
-    S.Push(Model, RAM, Memory, Battery);
+    line_F >> dt.Model >> dt.RAM >> dt.Memory >> dt.Battery;
+    S.Push(dt);
   }
   file.close();
   int m = 1;
@@ -122,31 +120,30 @@ int main()
       {
         system("cls");
         cout << "Enter product specifications:" << endl;
-        cout << "Model = "; cin >> Model;
-        cout << "RAM = "; cin >> RAM;
-        cout << "Memory = "; cin >> Memory;
-        cout << "Battery = "; cin >> Battery;
-        S.Push(Model, RAM, Memory, Battery);
+        cout << "Model = "; cin >> dt.Model;
+        cout << "RAM = "; cin >> dt.RAM;
+        cout << "Memory = "; cin >> dt.Memory;
+        cout << "Battery = "; cin >> dt.Battery;
+        S.Push(dt);
         system("cls");
         break;
       }
       case 2:
       {
         system("cls");
-        string Model_x;
-        int RAM_x, Memory_x, Battery_x;
+        phone dt_x;
         bool metka = false;
         cout << "Enter product specifications:" << endl;
-        cout << "Model = "; cin >> Model_x;
-        cout << "RAM = "; cin >> RAM_x;
-        cout << "Memory = "; cin >> Memory_x;
-        cout << "Battery = "; cin >> Battery_x;
+        cout << "Model = "; cin >> dt_x.Model;
+        cout << "RAM = "; cin >> dt_x.RAM;
+        cout << "Memory = "; cin >> dt_x.Memory;
+        cout << "Battery = "; cin >> dt_x.Battery;
         while(S.Count)
         {
-          S.Pop(Model, RAM, Memory, Battery);
-          if(Model != Model_x || RAM != RAM_x || Memory != Memory_x || Battery != Battery_x)
+          S.Pop(dt);
+          if(dt.Model != dt_x.Model || dt.RAM != dt_x.RAM || dt.Memory != dt_x.Memory || dt.Battery != dt_x.Battery)
           {
-            V.Push(Model, RAM, Memory, Battery);
+            V.Push(dt);
           }
           else
           {
@@ -157,8 +154,8 @@ int main()
         if(!metka) cout << "Product not found" << endl;
         while(V.Count)
         {
-          V.Pop(Model, RAM, Memory, Battery);
-          S.Push(Model, RAM, Memory, Battery);
+          V.Pop(dt);
+          S.Push(dt);
         }
         system("pause");
         system("cls");
@@ -169,7 +166,7 @@ int main()
         system("cls");
         while(S.Count)
         {
-          S.Pop(Model, RAM, Memory, Battery);
+          S.Pop(dt);
         }
         break;
       }
