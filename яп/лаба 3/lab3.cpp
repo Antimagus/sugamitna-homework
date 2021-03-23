@@ -70,10 +70,30 @@ void MyStack::Info()
     cout <<"\tTop Battery = " << Top -> data.Battery << endl << endl;
   }
 }
+void print(MyStack &S, MyStack &V)
+{
+  string Model;
+  int RAM, Memory, Battery;
+  while(S.Count)
+  {
+    S.Pop(Model, RAM, Memory, Battery);
+    cout <<"\tModel = " << Model << endl;
+    cout <<"\tRAM = " << RAM << endl;
+    cout <<"\tMemory = " << Memory << endl;
+    cout <<"\tBattery = " << Battery << endl << endl;
+    V.Push(Model, RAM, Memory, Battery);
+  }
+  while(V.Count)
+  {
+    V.Pop(Model, RAM, Memory, Battery);
+    S.Push(Model, RAM, Memory, Battery);
+  }
+}
 int main()
 {
   MyStack S;
   MyStack V;
+  S.Count = 0;
   V.Count = 0;
   string Model;
   int RAM, Memory, Battery;
@@ -89,10 +109,11 @@ int main()
   int m = 1;
   while(m)
   {
-    S.Info();
+    //S.Info();
     cout << "1. Add product to basket" << endl;
     cout << "2. Pull an item from the basket" << endl;
     cout << "3. Clear the basket" << endl;
+    cout << "4. Show basket contents" << endl;
     cout << "0. Exit" << endl;
     cin >> m;
     switch(m)
@@ -150,6 +171,14 @@ int main()
         {
           S.Pop(Model, RAM, Memory, Battery);
         }
+        break;
+      }
+      case 4:
+      {
+        system("cls");
+        print(S,V);
+        system("pause");
+        system("cls");
         break;
       }
     }
