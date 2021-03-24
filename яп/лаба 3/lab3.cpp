@@ -107,7 +107,7 @@ int main()
   int m = 1;
   while(m)
   {
-    //S.Info();
+    S.Info();
     cout << "1. Add product to basket" << endl;
     cout << "2. Pull an item from the basket" << endl;
     cout << "3. Clear the basket" << endl;

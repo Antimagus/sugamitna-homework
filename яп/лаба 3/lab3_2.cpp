@@ -60,14 +60,48 @@ bool MyQueue::Pop(product_group& dt)
 }
 void MyQueue::Info()
 {
-  if(!First) cout << "Queue is empty" << endl;
+  if(!First) cout << "The warehouse is empty" << endl;
   else
   {
-    cout << endl << "Queue info: " << endl;
-    cout << "\tQueue size = " << Count << endl;
+    cout << endl << "Information about the warehouse: " << endl;
+    cout << "\tWarehouse size = " << Count << endl;
     cout << "\tFirst quantity = " << First -> data.quantity << endl;
     cout << "\tFirst price = " << First -> data.price << endl << endl;
   }
+}
+bool check(MyQueue Q, product_group dt_x)
+{
+  product_group dt;
+  MyQueue::Node *a;
+  a = Q.First;
+  int k = 0;
+  while(a -> data.price <= dt_x.price & k != Q.Count)
+  {
+    dt.price = a -> data.price;
+    dt.quantity = a -> data.quantity;
+    if(dt_x.quantity <= dt.quantity)
+    {
+      dt_x.quantity = 0;
+    }
+    else
+    {
+      dt_x.quantity -= dt.quantity;
+    }
+    if(dt_x.quantity == 0)
+    {
+      return true;
+    }
+    else
+    {
+      if(k < Q.Count)
+      {
+        k++;
+        a = a -> next;
+      }
+      else return false;
+    }
+  }
+  return false;
 }
 int main()
 {
@@ -86,7 +120,7 @@ int main()
   int m = 1;
   while(m)
   {
-    //Q.Info();
+    Q.Info();
     cout << "1. Receipt of goods" << endl;
     cout << "2. Sale of goods" << endl;
     cout << "3. Report" << endl;
@@ -110,9 +144,37 @@ int main()
         cout << "Enter the price and quantity of the product:" << endl;
         cout << "Quantity = "; cin >> dt_x.quantity;
         cout << "Price = "; cin >> dt_x.price;
-        //
-        //
-        //
+        dt.price = Q.First -> data.price;
+        dt.quantity = Q.First -> data.quantity;
+        if(check(Q, dt_x))
+        {
+          while(dt_x.quantity)
+          {
+            if(dt_x.quantity <= dt.quantity)
+            {
+              Q.income += dt_x.quantity * (dt_x.price - dt.price);
+              Q.full_cost -= dt.price * dt_x.quantity;
+              dt.quantity -= dt_x.quantity;
+              dt_x.quantity = 0;
+              Q.First -> data.quantity = dt.quantity;
+            }
+            else
+            {
+              Q.income += dt.quantity * (dt_x.price - dt.price);
+              Q.full_cost -= dt.price * dt.quantity;
+              dt_x.quantity -= dt.quantity;
+              dt.quantity = 0;
+            }
+            if(dt.quantity == 0)
+            {
+              Q.Pop(dt);
+              dt.price = Q.First -> data.price;
+              dt.quantity = Q.First -> data.quantity;
+            }
+          }
+          cout << "Purchase completed :)" << endl;
+        }
+        else cout << "The purchase was not made :(" << endl;
         system("pause");
         system("cls");
         break;
@@ -120,9 +182,9 @@ int main()
       case 3:
       {
         system("cls");
-        cout << "Count = " << Q.Count << endl;
-        cout << "Price = " << Q.full_cost << endl;
-        cout << "Income = " << Q.income << endl;
+        cout << "Number of units = " << Q.Count << endl;
+        cout << "Product price = " << Q.full_cost << endl;
+        cout << "Income from sale = " << Q.income << endl;
         system("pause");
         system("cls");
         break;
