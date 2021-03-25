@@ -17,7 +17,7 @@ struct MyStack
     Node *prev;
   };
   Node *Top = NULL;
-  int Count;
+  int Count = 0;
   bool Push(phone);
   bool Pop(phone&);
   void Info();
@@ -38,20 +38,14 @@ bool MyStack::Push(phone dt)
     Top = temp;
     Count++;
   }
-  Top -> data.Model = dt.Model;
-  Top -> data.RAM = dt.RAM;
-  Top -> data.Memory = dt.Memory;
-  Top -> data.Battery = dt.Battery;
+  Top -> data = dt;
   return true;
 }
 bool MyStack::Pop(phone& dt)
 {
   if(!Top) return false;
   Node *temp = Top -> prev;
-  dt.Model = Top -> data.Model;
-  dt.RAM = Top -> data.RAM;
-  dt.Memory = Top -> data.Memory;
-  dt.Battery = Top -> data.Battery;
+  dt = Top -> data;
   delete Top;
   Top = temp;
   Count--;
@@ -92,8 +86,6 @@ int main()
 {
   MyStack S;
   MyStack V;
-  S.Count = 0;
-  V.Count = 0;
   phone dt;
   ifstream file("phone.txt");
   string line;

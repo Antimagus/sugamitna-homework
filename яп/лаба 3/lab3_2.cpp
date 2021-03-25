@@ -28,8 +28,7 @@ bool MyQueue::Push(product_group dt)
   {
     First = new Node;
     First -> next = NULL;
-    First -> data.quantity = dt.quantity;
-    First -> data.price = dt.price;
+    First -> data = dt;
     Count = 1;
     full_cost += dt.price * dt.quantity;
   }
@@ -39,8 +38,7 @@ bool MyQueue::Push(product_group dt)
     temp = First;
     while(temp -> next != NULL) temp = temp -> next;
     temp -> next = new Node;
-    temp -> next -> data.quantity = dt.quantity;
-    temp -> next -> data.price = dt.price;
+    temp -> next -> data = dt;
     temp -> next -> next = NULL;
     Count++;
     full_cost += dt.price * dt.quantity;
@@ -51,8 +49,7 @@ bool MyQueue::Pop(product_group& dt)
 {
   if(!First) return false;
   Node* temp = First -> next;
-  dt.quantity = First -> data.quantity;
-  dt.price = First -> data.price;
+  dt = First -> data;
   delete First;
   First = temp;
   Count--;
@@ -144,8 +141,7 @@ int main()
         cout << "Enter the price and quantity of the product:" << endl;
         cout << "Quantity = "; cin >> dt_x.quantity;
         cout << "Price = "; cin >> dt_x.price;
-        dt.price = Q.First -> data.price;
-        dt.quantity = Q.First -> data.quantity;
+        dt = Q.First -> data;
         if(check(Q, dt_x))
         {
           while(dt_x.quantity)
@@ -168,8 +164,7 @@ int main()
             if(dt.quantity == 0)
             {
               Q.Pop(dt);
-              dt.price = Q.First -> data.price;
-              dt.quantity = Q.First -> data.quantity;
+              dt = Q.First -> data;
             }
           }
           cout << "Purchase completed :)" << endl;
