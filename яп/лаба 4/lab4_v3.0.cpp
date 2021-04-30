@@ -30,7 +30,7 @@ bool MyQueue::Push(char* data, int n)
     First = new Node;
     First -> next = NULL;
     First -> data = new char[n];
-    for(int i = 0; i <= n; i++) (First -> data)[i] = data[i];
+    for(int i = 0; i < n; i++) (First -> data)[i] = data[i];
     Count = 1;
     First -> nnn = n;
   }
@@ -41,7 +41,7 @@ bool MyQueue::Push(char* data, int n)
     while(temp -> next != NULL) temp = temp -> next;
     temp -> next = new Node;
     temp -> next -> data = new char[n];
-    for(int i = 0; i <= n; i++) (temp -> next -> data)[i] = data[i];
+    for(int i = 0; i < n; i++) (temp -> next -> data)[i] = data[i];
     temp -> next -> nnn = n;
     temp -> next -> next = NULL;
     Count++;
@@ -54,7 +54,7 @@ bool MyQueue::Pop(char*& data, int& n)
   Node* temp = First -> next;
   n = First -> nnn;
   data = new char[n];
-  for(int i = 0; i <= First -> nnn; i++) data[i] = (First -> data)[i];
+  for(int i = 0; i < First -> nnn; i++) data[i] = (First -> data)[i];
   delete[] (First -> data);
   delete First;
   First = temp;
@@ -79,12 +79,12 @@ void GetSeria(char*& data, int &n, laptop A)
   char* d3 = const_cast<char*> (A.model.c_str());
   char* d4_size = reinterpret_cast<char*> (&s2);
   char* d4 = const_cast<char*> (A.color.c_str());
-  for(int i = 0; i <= n1; i++) data[i] = d1[i];
-  for(int i = 0; i <= n2; i++) data[i + n1] = d2[i];
-  for(int i = 0; i <= n3_size; i++) data[i + n1 + n2] = d3_size[i];
-  for(int i = 0; i <= n3; i++) data[i + n1 + n2 + n3_size] = d3[i];
-  for(int i = 0; i <= n4_size; i++) data[i + n1 + n2 + n3_size + n3] = d4_size[i];
-  for(int i = 0; i <= n4; i++) data[i + n1 + n2 + n3_size + n3 + n4_size] = d4[i];
+  for(int i = 0; i < n1; i++) data[i] = d1[i];
+  for(int i = 0; i < n2; i++) data[i + n1] = d2[i];
+  for(int i = 0; i < n3_size; i++) data[i + n1 + n2] = d3_size[i];
+  for(int i = 0; i < n3; i++) data[i + n1 + n2 + n3_size] = d3[i];
+  for(int i = 0; i < n4_size; i++) data[i + n1 + n2 + n3_size + n3] = d4_size[i];
+  for(int i = 0; i < n4; i++) data[i + n1 + n2 + n3_size + n3 + n4_size] = d4[i];
 }
 void GetDeSeria(char* data, int n, laptop& A)
 {
@@ -178,6 +178,7 @@ int main()
           {
             GetSeria(data, n, A);
             Q.Push(data, n);
+            delete[] data;
           }
           else
           {
