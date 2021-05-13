@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 struct DLList
 {
   struct Node
@@ -112,5 +113,120 @@ bool DLList::AddNext(int data)
   C->next->prev = C;
   if(!temp) L = C->next;
   else temp->prev = C->next;
-  
+  C = C->next;
+  C->data = data;
+  Count++;
+  return true;
+}
+bool DLList::AddPrev(int data)
+{
+  if(!F) return Init(data);
+  Node* temp = C->prev;
+  C->prev = new Node;
+  C->prev->next = C;
+  C->prev->prev = temp;
+  if(!temp) F = C->prev;
+  else temp->next = C->prev;
+  C = C->prev;
+  C->data = data;
+  Count++;
+  return true;
+}
+bool DLList::AddFirst(int data)
+{
+  if(MoveFirst()) return AddPrev(data);
+  else return Init(data);
+}
+bool DLList::AddLast(int data)
+{
+  if(MoveLast()) return AddNext(data);
+  else return Init(data);
+}
+bool DLList::DelFirst(int& data)
+{
+  if(!F) return false;
+  if(C != F) MoveFirst();
+  Node* temp = C->next;
+  data = C->data;
+  if(temp) temp->prev = NULL;
+  delete C;
+  C = temp;
+  F = temp;
+  Count--;
+  if(!temp)
+  {
+    L = NULL;
+    return false;
+  }
+  return true;
+}
+bool DLList::DelLast(int& data)
+{
+  if(!F) return false;
+  if(C != L) MoveLast();
+  Node* temp = C->prev;
+  data = C->data;
+  if(temp) temp->next = NULL;
+  delete C;
+  C = temp;
+  L = temp;
+  Count--;
+  if(!temp)
+  {
+    F = NULL;
+    return false;
+  }
+  return true;
+}
+bool DLList::Del(int& data)
+{
+  if(!F) return false;
+  if(!C) return false;
+  if(C == F) return DelFirst(data);
+  if(C == L) return DelLast(data);
+  Node* temp = C->next;
+  data = C->data;
+  C->prev->next = C->next;
+  C->next->prev = C->prev;
+  delete C;
+  C = temp;
+  Count--;
+  return true;
+}
+bool DLList::DelNext(int& data)
+{
+  if(!F) return false;
+  if(!C) return false;
+  if(MoveNext()) return Del(data);
+  return false;
+}
+bool DLList::DelPrev(int& data)
+{
+  if(!F) return false;
+  if(!C) return false;
+  if(MovePrev()) return Del(data);
+  return false;
+}
+void DLList::Clear()
+{
+  if(!MoveFirst())
+  {
+    cout << "List is empty" << endl;
+    return;
+  }
+  int k;
+  while(Del(k));
+}
+int main()
+{
+  DLList MyList;
+  MyList.Out();
+  for(int i = 1; i < 10; i++) MyList.AddNext(i);
+  MyList.Out();
+  cout << endl << "---------------------------------------" << endl;
+  MyList.AddFirst(0);
+  MyList.AddLast(10);
+  MyList.Out();
+  MyList.Info();
+  cout << endl << "---------------------------------------" << endl;
 }
