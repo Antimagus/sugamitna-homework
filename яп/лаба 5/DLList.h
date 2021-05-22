@@ -6,14 +6,14 @@ struct DLList
 {
   struct Node
   {
-    int data;
+    void* data;
     Node* next;
     Node* prev;
   };
   Node* F = NULL;
   Node* L = NULL;
   Node* C = NULL;
-  int Count;
+  int Count = 0;
   void Out();
   void Info();
   void Clear();
@@ -21,15 +21,16 @@ struct DLList
   bool MovePrev();
   bool MoveFirst();
   bool MoveLast();
-  bool Init(int);
-  bool AddNext(int);
-  bool AddPrev(int);
-  bool AddFirst(int);
-  bool AddLast(int);
-  bool Del(int&);
-  bool DelNext(int&);
-  bool DelPrev(int&);
-  bool DelFirst(int&);
-  bool DelLast(int&);
+  bool Init(void*);
+  bool AddNext(void*);
+  bool AddPrev(void*);
+  bool AddFirst(void*);
+  bool AddLast(void*);
+  bool Del(void*&);
+  bool DelNext(void*&);
+  bool DelPrev(void*&);
+  bool DelFirst(void*&);
+  bool DelLast(void*&);
+  bool Move_k(int);
 };
 #endif

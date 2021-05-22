@@ -60,7 +60,7 @@ bool DLList::MovePrev()
   C = C->prev;
   return true;
 }
-bool DLList::Init(int data)
+bool DLList::Init(void* data)
 {
   if(!F)
   {
@@ -75,7 +75,7 @@ bool DLList::Init(int data)
   }
   else return false;
 }
-bool DLList::AddNext(int data)
+bool DLList::AddNext(void* data)
 {
   if(!F) return Init(data);
   Node* temp = C->next;
@@ -89,7 +89,7 @@ bool DLList::AddNext(int data)
   Count++;
   return true;
 }
-bool DLList::AddPrev(int data)
+bool DLList::AddPrev(void* data)
 {
   if(!F) return Init(data);
   Node* temp = C->prev;
@@ -103,17 +103,17 @@ bool DLList::AddPrev(int data)
   Count++;
   return true;
 }
-bool DLList::AddFirst(int data)
+bool DLList::AddFirst(void* data)
 {
   if(MoveFirst()) return AddPrev(data);
   else return Init(data);
 }
-bool DLList::AddLast(int data)
+bool DLList::AddLast(void* data)
 {
   if(MoveLast()) return AddNext(data);
   else return Init(data);
 }
-bool DLList::DelFirst(int& data)
+bool DLList::DelFirst(void*& data)
 {
   if(!F) return false;
   if(C != F) MoveFirst();
@@ -127,11 +127,10 @@ bool DLList::DelFirst(int& data)
   if(!temp)
   {
     L = NULL;
-    return false;
   }
   return true;
 }
-bool DLList::DelLast(int& data)
+bool DLList::DelLast(void*& data)
 {
   if(!F) return false;
   if(C != L) MoveLast();
@@ -145,11 +144,10 @@ bool DLList::DelLast(int& data)
   if(!temp)
   {
     F = NULL;
-    return false;
   }
   return true;
 }
-bool DLList::Del(int& data)
+bool DLList::Del(void*& data)
 {
   if(!F) return false;
   if(!C) return false;
@@ -164,14 +162,14 @@ bool DLList::Del(int& data)
   Count--;
   return true;
 }
-bool DLList::DelNext(int& data)
+bool DLList::DelNext(void*& data)
 {
   if(!F) return false;
   if(!C) return false;
   if(MoveNext()) return Del(data);
   return false;
 }
-bool DLList::DelPrev(int& data)
+bool DLList::DelPrev(void*& data)
 {
   if(!F) return false;
   if(!C) return false;
@@ -185,6 +183,41 @@ void DLList::Clear()
     cout << "List is empty" << endl;
     return;
   }
-  int k;
+  void* k;
   while(Del(k));
+}
+bool DLList::Move_k(int k)
+{
+  if(k >= 0 & k < Count)
+  {
+    if(k == 0)
+    {
+      return MoveFirst();
+    }
+    else if(k == (Count - 1))
+    {
+      return MoveLast();
+    }
+    else
+    {
+      if(k < (Count - k))
+      {
+        MoveFirst();
+        for(int i = 0; i < k; i++)
+        {
+          MoveNext();
+        }
+      }
+      else
+      {
+        MoveLast();
+        for(int i = Count; i > k; i--)
+        {
+          MovePrev();
+        }
+      }
+      return true;
+    }
+  }
+  else return false;
 }
