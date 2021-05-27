@@ -1,76 +1,57 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "DLList.h"
+#include "Cup.h"
 using namespace std;
-struct Cup
-{
-  double volume;
-  double height;
-  double diameter;
-  string material;
-};
-void* Cup_init()
-{
-  Cup* A = new Cup;
-  cout << "Enter your data:" << endl;
-  cout << "Volume = "; cin >> A->volume;
-  cout << "Height = "; cin >> A->height;
-  cout << "Diameter = "; cin >> A->diameter;
-  cout << "Material = "; cin >> A->material;
-  void* S = (void*) A;
-  return S;
-}
-void Cup_del(void* S)
-{
-  delete (Cup*) S;
-}
-void Cup_cup(void* S, Cup& A)
-{
-  A = *((Cup*) S);
-}
-void Cup_out(DLList List)
-{
-  Cup A;
-  List.MoveFirst();
-  system("cls");
-  if(!List.Count)
-  {
-    cout << "List is empty" << endl;
-    return;
-  }
-  for(int i = 0; i < List.Count; i++)
-  {
-    Cup_cup(List.C->data, A);
-    cout << "Volume = " << A.volume << endl;
-    cout << "Height = " << A.height << endl;
-    cout << "Diameter = " << A.diameter << endl;
-    cout << "Material = " << A.material << endl << endl;
-    List.MoveNext();
-  }
-}
 int main()
 {
   DLList List;
   void* S;
   Cup A;
   int m = 1;
+  ifstream file("lab5.txt");
+  string line;
+  while(getline(file, line))
+  {
+    istringstream line_F(line);
+    line_F >> A.volume >> A.height >> A.diameter >> A.material;
+    S = Cup_init(A);
+    List.AddNext(S);
+  }
+  file.close();
   while(m)
   {
     system("cls");
-    cout << "Add element:" << endl;
-    cout << "1 in the beginning" << endl;
-    cout << "2 in the end" << endl;
-    cout << "3 in the k-position" << endl;
-    cout << "Delete element:" << endl;
-    cout << "4 the first" << endl;
-    cout << "5 the last" << endl;
-    cout << "6 the k position" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|Add element:                         |" << endl;
+    cout << "|1 in the beginning                   |" << endl;
+    cout << "|2 in the end                         |" << endl;
+    cout << "|3 in the k-position                  |" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|Delete element:                      |" << endl;
+    cout << "|4 the first                          |" << endl;
+    cout << "|5 the last                           |" << endl;
+    cout << "|6 the k position                     |" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|7 Sort by \"volume\"                   |" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|8 Clear the list                     |" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|9 Upload data from the list to a file|" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|10 Show the list                     |" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "|0 Exit                               |" << endl;
+    cout << "---------------------------------------" << endl;
     cin >> m;
     switch(m)
     {
       case 1:
       {
         system("cls");
-        S = Cup_init();
+        Cup_cin(A);
+        S = Cup_init(A);
         List.AddFirst(S);
         Cup_out(List);
         system("pause");
@@ -79,7 +60,8 @@ int main()
       case 2:
       {
         system("cls");
-        S = Cup_init();
+        Cup_cin(A);
+        S = Cup_init(A);
         List.AddLast(S);
         Cup_out(List);
         system("pause");
@@ -94,7 +76,8 @@ int main()
         k--;
         if(k >= 0 & k <= List.Count)
         {
-          S = Cup_init();
+          Cup_cin(A);
+          S = Cup_init(A);
           if(k == 0)
           {
             List.AddFirst(S);
@@ -184,14 +167,57 @@ int main()
         system("pause");
         break;
       }
-      case 9:
+      case 7:
+      {
+        system("cls");
+        void* tmp;
+        for(int i = 0; i < List.Count; i++)
+        {
+          List.MoveLast();
+          for(int j = (List.Count - 1); j >= (i + 1); j--)
+          {
+            if(((Cup*) List.C->data)->volume < ((Cup*) List.C->prev->data)->volume)
+            {
+              tmp = List.C->data;
+              List.C->data = List.C->prev->data;
+              List.C->prev->data = tmp;
+            }
+            List.MovePrev();
+          }
+        }
+        Cup_out(List);
+        system("pause");
+        break;
+      }
+      case 8:
       {
         List.MoveFirst();
-        while(List.Count)
+        while(List.Del(S))
         {
-          List.Del(S);
           Cup_del(S);
         }
+        Cup_out(List);
+        system("pause");
+        break;
+      }
+      case 9:
+      {
+        ofstream file("lab5.txt");
+        List.MoveFirst();
+        for(int i = 0; i < List.Count; i++)
+        {
+          A = *((Cup*) List.C->data);
+          file << A.volume << " "  << A.height << " "<< A.diameter << " " << A.material << endl;
+          List.MoveNext();
+        }
+        file.close();
+        cout << "Uploaded!!!" << endl;
+        system("pause");
+        break;
+      }
+      case 10:
+      {
+        system("cls");;
         Cup_out(List);
         system("pause");
         break;
@@ -199,9 +225,8 @@ int main()
     }
   }
   List.MoveFirst();
-  while(List.Count)
+  while(List.Del(S))
   {
-    List.Del(S);
     Cup_del(S);
   }
   system("pause");
