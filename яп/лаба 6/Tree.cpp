@@ -10,18 +10,18 @@ int GetTreeSize(Tree* T)
   if(T->right) right = GetTreeSize(T->right);
   return left + right + 1;
 }
-void Add(Tree*& T, int data)
+void Add(Tree** T, int data)
 {
-  if(!T)
+  if(!(*T))
   {
-    T = new Tree;
-    T->data = data;
-    T->left = NULL;
-    T-> right = NULL;
+    *T = new Tree;
+    (*T)->data = data;
+    (*T)->left = NULL;
+    (*T)-> right = NULL;
     return;
   }
-  if(data < T->data) Add(T->left, data);
-  else Add(T->right, data);
+  if(data < (*T)->data) Add(&((*T)->left), data);
+  else Add(&((*T)->right), data);
 }
 void PrintLRR(Tree* T)
 {

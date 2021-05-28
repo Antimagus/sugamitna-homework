@@ -8,7 +8,7 @@ struct Tree
   Tree* right;
 };
 int GetTreeSize(Tree*);
-void Add(Tree*&, int);
+void Add(Tree**, int);
 void PrintLRR(Tree*);
 Tree* Search(Tree*&, int);
 void Delete(Tree*& T);
