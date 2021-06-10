@@ -1,8 +1,8 @@
-Distance from the vertex 2 to vertex 1 = 5
-Distance from the vertex 2 to vertex 2 = 0
-Distance from the vertex 2 to vertex 3 = 2
-Distance from the vertex 2 to vertex 4 = 4
-Distance from the vertex 2 to vertex 5 = 7
-Distance from the vertex 2 to vertex 6 = 12
+Distance from the vertex 1 to vertex 1 = 0
+Distance from the vertex 1 to vertex 2 = 5
+Distance from the vertex 1 to vertex 3 = 7
+Distance from the vertex 1 to vertex 4 = 5
+Distance from the vertex 1 to vertex 5 = 2
+Distance from the vertex 1 to vertex 6 = 17
 Route: 
-5 <- 1 <- 2 <- 
+6 <- 3 <- 2 <- 1 <- 

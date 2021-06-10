@@ -96,7 +96,7 @@ int* dijkstra(int** A, int n, int start)
 {
   const int inf = INT_MAX;
   int* distance = new int[n];
-  bool visited[n];
+  bool* visited = new bool[n];
   int index, u;
   for(int i = 0; i < n; i++)
   {
@@ -118,6 +118,7 @@ int* dijkstra(int** A, int n, int start)
     for(int i = 0; i < n; i++)
       if(!visited[i] && A[u][i] && distance[u] != inf && distance[u] + A[u][i] < distance[i]) distance[i] = distance[u] + A[u][i];
   }
+  delete[] visited;
   return distance;
 }
 void dijkstra_route(int** A, int n, int start, int end, int* distance, queue <int>& route)
