@@ -4,20 +4,45 @@
 using namespace std;
 int** read_matrix(string, int&, int&);
 void delete_matrix(int**&, int);
-void dijkstra(int**, int, int);
+int* dijkstra(int**, int, int);
+void dijkstra_route(int**, int, int, int, int*, queue <int>&);
 int main()
 {
+  ofstream out;
+  out.open("out.txt");
   int n, m;
-  int** A = read_matrix("data.txt", n, m);
+  queue <int> route;
+  int** A = read_matrix("data2.txt", n, m);
   if(A == NULL | n != m)
   {
     cout << "error";
+    out << "error";
     return 0;
   }
   int start;
-  cout << "Enter the vertex number (starting from 0): "; cin >> start;
-  dijkstra(A, n, start);
+  cout << "Enter the vertex number (starting from 1): "; cin >> start;
+  start--;
+  int* distance = dijkstra(A, n, start);
+  for(int i = 0; i < n; i++)
+  {
+    cout << "Distance from the vertex " << start + 1 << " to vertex " << i + 1 << " = " << distance[i] << endl;
+    out << "Distance from the vertex " << start + 1 << " to vertex " << i + 1 << " = " << distance[i] << endl;
+  }
+  int end;
+  cout << "Enter the number of the final vertex for which you want to build the route: "; cin >> end;
+  end--;
+  dijkstra_route(A, n, start, end, distance, route);
+  cout << "Route: " << endl;
+  out << "Route: " << endl;
+  while(!route.empty())
+  {
+    cout << route.front() << " <- " ;
+    out << route.front() << " <- " ;
+    route.pop();
+  }
+  out.close();
   delete_matrix(A, n);
+  delete[] distance;
   return 0;
 }
 int** read_matrix(string file_name, int& n, int& m)
@@ -67,10 +92,10 @@ void delete_matrix(int**& x, int n)
   for (int i = 0; i < n; i++) delete[] x[i];
   delete[] x;
 }
-void dijkstra(int** A, int n, int start)
+int* dijkstra(int** A, int n, int start)
 {
   const int inf = INT_MAX;
-  int distance[n];
+  int* distance = new int[n];
   bool visited[n];
   int index, u;
   for(int i = 0; i < n; i++)
@@ -93,14 +118,11 @@ void dijkstra(int** A, int n, int start)
     for(int i = 0; i < n; i++)
       if(!visited[i] && A[u][i] && distance[u] != inf && distance[u] + A[u][i] < distance[i]) distance[i] = distance[u] + A[u][i];
   }
-  for(int i = 0; i < n; i++)
-  {
-    cout << "Distance from the vertex " << start << " to vertex " << i << " = " << distance[i] << endl;
-  }
-  int end;
-  cout << "Enter the number of the final vertex for which you want to build the route: "; cin >> end;
-  queue <int> route;
-  route.push(end);
+  return distance;
+}
+void dijkstra_route(int** A, int n, int start, int end, int* distance, queue <int>& route)
+{
+  route.push(end + 1);
   int weight = distance[end];
   while (end != start)
   {
@@ -112,14 +134,8 @@ void dijkstra(int** A, int n, int start)
         {
           weight = temp;
           end = i;
-          route.push(i);
+          route.push(i + 1);
         }
       }
-  }
-  cout << "Route: " << endl;
-  while(!route.empty())
-  {
-    cout << " " << route.front();
-    route.pop();
   }
 }
