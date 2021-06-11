@@ -2,8 +2,8 @@
 #include <fstream>
 #include <stack>
 using namespace std;
-int** read_matrix(string, int&, int&);
-void delete_matrix(int**&, int);
+int** Read(string, int&, int&);
+void Delete(int**&, int);
 int* dijkstra(int**, int, int);
 void dijkstra_route(int**, int, int, int, int*, stack <int>&);
 int main()
@@ -12,26 +12,26 @@ int main()
   out.open("out.txt");
   int n, m;
   stack <int> route;
-  int** A = read_matrix("data2.txt", n, m);
+  int** A = Read("data.txt", n, m);
   if(A == NULL | n != m)
   {
     cout << "error";
     out << "error";
     return 0;
   }
-  int start;
-  cout << "Enter the vertex number (starting from 1): "; cin >> start;
-  start--;
-  int* distance = dijkstra(A, n, start);
+  int s;
+  cout << "Start vertex: "; cin >> s;
+  s--;
+  int* d = dijkstra(A, n, s);
   for(int i = 0; i < n; i++)
   {
-    cout << "Distance from the vertex " << start + 1 << " to vertex " << i + 1 << " = " << distance[i] << endl;
-    out << "Distance from the vertex " << start + 1 << " to vertex " << i + 1 << " = " << distance[i] << endl;
+    cout << s + 1 << " -> " << i + 1 << " = " << d[i] << endl;
+    out << s + 1 << " -> " << i + 1 << " = " << d[i] << endl;
   }
   int end;
-  cout << "Enter the number of the final vertex for which you want to build the route: "; cin >> end;
+  cout << "Final vertex: "; cin >> end;
   end--;
-  dijkstra_route(A, n, start, end, distance, route);
+  dijkstra_route(A, n, s, end, d, route);
   cout << "Route: " << endl;
   out << "Route: " << endl;
   while(!route.empty())
@@ -41,11 +41,11 @@ int main()
     route.pop();
   }
   out.close();
-  delete_matrix(A, n);
-  delete[] distance;
+  Delete(A, n);
+  delete[] d;
   return 0;
 }
-int** read_matrix(string file_name, int& n, int& m)
+int** Read(string file_name, int& n, int& m)
 {
   ifstream in(file_name);
   if(in.is_open())
@@ -87,51 +87,51 @@ int** read_matrix(string file_name, int& n, int& m)
   in.close();
   return NULL;
 }
-void delete_matrix(int**& x, int n)
+void Delete(int**& x, int n)
 {
   for (int i = 0; i < n; i++) delete[] x[i];
   delete[] x;
 }
-int* dijkstra(int** A, int n, int start)
+int* dijkstra(int** A, int n, int s)
 {
   const int inf = INT_MAX;
-  int* distance = new int[n];
-  bool* visited = new bool[n];
+  int* d = new int[n];
+  bool* v = new bool[n];
   int index, u;
   for(int i = 0; i < n; i++)
   {
-    distance[i] = inf;
-    visited[i] = false;
+    d[i] = inf;
+    v[i] = false;
   }
-  distance[start] = 0;
+  d[s] = 0;
   for(int count = 0; count < n - 1; count++)
   {
     int min = inf;
     for(int i = 0; i < n; i++)
-    if(!visited[i] && distance[i] <= min)
+    if(!v[i] && d[i] <= min)
     {
-      min = distance[i];
+      min = d[i];
       index = i;
     }
     u = index;
-    visited[u] = true;
+    v[u] = true;
     for(int i = 0; i < n; i++)
-      if(!visited[i] && A[u][i] && distance[u] != inf && distance[u] + A[u][i] < distance[i]) distance[i] = distance[u] + A[u][i];
+      if(!v[i] && A[u][i] && d[u] != inf && d[u] + A[u][i] < d[i]) d[i] = d[u] + A[u][i];
   }
-  delete[] visited;
-  return distance;
+  delete[] v;
+  return d;
 }
-void dijkstra_route(int** A, int n, int start, int end, int* distance, stack <int>& route)
+void dijkstra_route(int** A, int n, int s, int end, int* d, stack <int>& route)
 {
   route.push(end + 1);
-  int weight = distance[end];
-  while (end != start)
+  int weight = d[end];
+  while (end != s)
   {
     for (int i = 0; i < n; i++)
       if (A[i][end] != 0)
       {
         int temp = weight - A[i][end];
-        if (temp == distance[i])
+        if (temp == d[i])
         {
           weight = temp;
           end = i;
