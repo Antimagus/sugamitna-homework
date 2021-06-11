@@ -1,17 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include <queue>
+#include <stack>
 using namespace std;
 int** read_matrix(string, int&, int&);
 void delete_matrix(int**&, int);
 int* dijkstra(int**, int, int);
-void dijkstra_route(int**, int, int, int, int*, queue <int>&);
+void dijkstra_route(int**, int, int, int, int*, stack <int>&);
 int main()
 {
   ofstream out;
   out.open("out.txt");
   int n, m;
-  queue <int> route;
+  stack <int> route;
   int** A = read_matrix("data2.txt", n, m);
   if(A == NULL | n != m)
   {
@@ -36,8 +36,8 @@ int main()
   out << "Route: " << endl;
   while(!route.empty())
   {
-    cout << route.front() << " <- " ;
-    out << route.front() << " <- " ;
+    cout << " -> " << route.top();
+    out << " -> " << route.top();
     route.pop();
   }
   out.close();
@@ -121,7 +121,7 @@ int* dijkstra(int** A, int n, int start)
   delete[] visited;
   return distance;
 }
-void dijkstra_route(int** A, int n, int start, int end, int* distance, queue <int>& route)
+void dijkstra_route(int** A, int n, int start, int end, int* distance, stack <int>& route)
 {
   route.push(end + 1);
   int weight = distance[end];
