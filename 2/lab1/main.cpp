@@ -129,7 +129,6 @@ int main()
         }
     }
     printf("\n\tVariant 8:\n\n");
-    int a = 0;
     for (int i = 0; i < n; i++)
     {
         if (Prev[i].day > 0)
