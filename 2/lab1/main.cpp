@@ -106,7 +106,7 @@ datetime* Read_file_date(string file_name, int& n)
 int main()
 {
     srand(time(0));
-    datetime date;
+    datetime date, next, prev;
     int n;
     datetime* Date = Read_file_date("data.txt", n);
     datetime* Prev = new datetime[n];
@@ -114,33 +114,26 @@ int main()
     printf("\n\n\tData read from file:\n\n");
     for (int i = 0; i < n; i++)
     {
+        Date[i].Get_next_date(next);
+        Date[i].Get_prev_date(prev);
         printf("%i)\t", i + 1);
         Date[i].Output(); 
         printf("\t");
-        Date[i].Get_next_date(date);
-        date.Output();
+        next.Output();
         printf("\t");
-        Date[i].Get_prev_date(date);
-        date.Output();
+        prev.Output();
         printf("\n");
-        if (Date[i].year == date.year)
-        {
-            Prev[i] = date;
-        }
+        Prev[i] = prev;
     }
     printf("\n\tVariant 8:\n\n");
     for (int i = 0; i < n; i++)
     {
-        if (Prev[i].day > 0)
+        if (Date[i].year == Prev[i].year)
         {
             printf("%i)\t", i + 1);
-            Date[i].Output();
+            Date[i].Output(); 
             printf("\t");
-            Prev[i].Output();
-            printf("\n");
-        }
-        else
-        {
+            prev.Output();
             printf("\n");
         }
     }
