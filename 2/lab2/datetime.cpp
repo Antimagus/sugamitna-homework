@@ -1,0 +1,104 @@
+#include <iostream>
+#include <time.h>
+#include "datetime.h"
+
+void datetime::Set(int data, int type_of_date)
+{
+    switch (type_of_date)
+    {
+    case 0:
+        hour = data;
+        break;
+    case 1:
+        minute = data;
+    case 2:
+        second = data;
+    case 3:
+        day = data;
+    case 4:
+        month = data;
+    case 5:
+        year = data;
+    default:
+        break;
+    }
+}
+
+int datetime::Get(int type_of_date)
+{
+    switch (type_of_date)
+    {
+    case 0:
+        return hour;
+    case 1:
+        return minute;
+    case 2:
+        return second;
+    case 3:
+        return day;
+    case 4:
+        return month;
+    case 5:
+        return year;
+    default:
+        return 0;
+    }
+}
+
+void datetime::System_time(datetime& system)
+{
+    time_t rawtime;
+    tm timeinfo;
+    time(&rawtime);
+    localtime_s(&timeinfo, &rawtime);
+    system.hour = timeinfo.tm_hour;
+    system.minute = timeinfo.tm_min;
+    system.second = timeinfo.tm_sec;
+    system.day = timeinfo.tm_mday;
+    system.month = timeinfo.tm_mon + 1;
+    system.year = timeinfo.tm_year + 1900;
+}
+
+void datetime::Get_next_date(datetime& next)
+{
+    int min = 2419200 * 2;
+    int max = 31536000;
+    Get_normal_time(Get_unix_time(*this) + (min + rand() % (max - min + 1)), next);
+}
+
+void datetime::Get_prev_date(datetime& prev)
+{
+    int min = 2419200 * 2;
+    int max = 31536000;
+    Get_normal_time(Get_unix_time(*this) - (min + rand() % (max - min + 1)), prev);
+}
+
+time_t Get_unix_time(datetime A)
+{
+    tm timeinfo;
+    timeinfo.tm_year = A.Get(_year_) - 1900;
+    timeinfo.tm_mon = A.Get(_month_) - 1;
+    timeinfo.tm_mday = A.Get(_day_);
+    timeinfo.tm_hour = A.Get(_hour_);
+    timeinfo.tm_min = A.Get(_minute_);
+    timeinfo.tm_sec = A.Get(_second_);
+    time_t unix_time = mktime(&timeinfo);
+    return unix_time;
+}
+
+void Get_normal_time(time_t unix_time, datetime& A)
+{
+    tm timeinfo;
+    localtime_s(&timeinfo, &unix_time);
+    A.Set(timeinfo.tm_hour, _hour_);
+    A.Set(timeinfo.tm_min, _minute_);
+    A.Set(timeinfo.tm_sec, _second_);
+    A.Set(timeinfo.tm_mday, _day_);
+    A.Set(timeinfo.tm_mon + 1, _month_);
+    A.Set(timeinfo.tm_year + 1900, _year_);
+}
+
+void datetime::Output()
+{
+    printf("%i:%i:%i %i/%i/%i", hour, minute, second, day, month, year);
+}
