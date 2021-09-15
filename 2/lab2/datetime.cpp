@@ -2,7 +2,7 @@
 #include <time.h>
 #include "datetime.h"
 
-void datetime::Set(int data, int type_of_date)
+void Datetime::Set(int data, int type_of_date)
 {
     switch (type_of_date)
     {
@@ -24,7 +24,7 @@ void datetime::Set(int data, int type_of_date)
     }
 }
 
-int datetime::Get(int type_of_date)
+int Datetime::Get(int type_of_date)
 {
     switch (type_of_date)
     {
@@ -45,7 +45,7 @@ int datetime::Get(int type_of_date)
     }
 }
 
-void datetime::System_time(datetime& system)
+void Datetime::System_time(Datetime& system)
 {
     time_t rawtime;
     tm timeinfo;
@@ -59,21 +59,21 @@ void datetime::System_time(datetime& system)
     system.year = timeinfo.tm_year + 1900;
 }
 
-void datetime::Get_next_date(datetime& next)
+void Datetime::Get_next_date(Datetime& next)
 {
     int min = 2419200 * 2;
     int max = 31536000;
     Get_normal_time(Get_unix_time(*this) + (min + rand() % (max - min + 1)), next);
 }
 
-void datetime::Get_prev_date(datetime& prev)
+void Datetime::Get_prev_date(Datetime& prev)
 {
     int min = 2419200 * 2;
     int max = 31536000;
     Get_normal_time(Get_unix_time(*this) - (min + rand() % (max - min + 1)), prev);
 }
 
-time_t Get_unix_time(datetime A)
+time_t Get_unix_time(Datetime A)
 {
     tm timeinfo;
     timeinfo.tm_year = A.Get(_year_) - 1900;
@@ -86,7 +86,7 @@ time_t Get_unix_time(datetime A)
     return unix_time;
 }
 
-void Get_normal_time(time_t unix_time, datetime& A)
+void Get_normal_time(time_t unix_time, Datetime& A)
 {
     tm timeinfo;
     localtime_s(&timeinfo, &unix_time);
@@ -98,7 +98,7 @@ void Get_normal_time(time_t unix_time, datetime& A)
     A.Set(timeinfo.tm_year + 1900, _year_);
 }
 
-void datetime::Output()
+void Datetime::Output()
 {
     printf("%i:%i:%i %i/%i/%i", hour, minute, second, day, month, year);
 }

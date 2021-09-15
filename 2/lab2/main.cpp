@@ -7,7 +7,7 @@
 
 using namespace std;
 
-datetime* Read_file_date(string file_name, int& n)
+Datetime* Read_file_date(string file_name, int& n)
 {
     int hour, minute, second, day, month, year;
     ifstream file(file_name);
@@ -17,7 +17,7 @@ datetime* Read_file_date(string file_name, int& n)
     {
         n++;
     }
-    datetime* Date = new datetime[n];
+    Datetime* Date = new Datetime[n];
     int i = 0;
     file.clear();
     file.seekg(0, ios::beg);
@@ -40,10 +40,10 @@ datetime* Read_file_date(string file_name, int& n)
 int main()
 {
     srand(time(0));
-    datetime date, next, prev;
+    Datetime date, next, prev;
     int n;
-    datetime* Date = Read_file_date("data.txt", n);
-    datetime* Prev = new datetime[n];
+    Datetime* Date = Read_file_date("data.txt", n);
+    Datetime* Prev = new Datetime[n];
     date.System_time(date); printf("\n\nSystem time: "); date.Output();
     printf("\n\n\tData read from file:\n\n");
     for (int i = 0; i < n; i++)

@@ -10,7 +10,7 @@ enum {
     _year_
 };
 
-class datetime
+class Datetime
 {
     private:
         int hour;
@@ -23,15 +23,15 @@ class datetime
 
     public:
         void Output();
-        void System_time(datetime& system);
-        void Get_next_date(datetime& next);
-        void Get_prev_date(datetime& prev);
+        void System_time(Datetime& system);
+        void Get_next_date(Datetime& next);
+        void Get_prev_date(Datetime& prev);
 
         void Set(int data, int type_of_date);
 
         int Get(int type_of_date);
 
 };
-time_t Get_unix_time(datetime A);
-void Get_normal_time(time_t unix_time, datetime& A);
+time_t Get_unix_time(Datetime A);
+void Get_normal_time(time_t unix_time, Datetime& A);
 #endif
