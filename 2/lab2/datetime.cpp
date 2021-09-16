@@ -45,7 +45,7 @@ int Datetime::Get(int type_of_date)
     }
 }
 
-void Datetime::System_time(Datetime& system)
+void Datetime::SystemTime(Datetime& system)
 {
     time_t rawtime;
     tm timeinfo;
@@ -59,21 +59,21 @@ void Datetime::System_time(Datetime& system)
     system.year = timeinfo.tm_year + 1900;
 }
 
-void Datetime::Get_next_date(Datetime& next)
+void Datetime::GetNextDate(Datetime& next)
 {
     int min = 2419200 * 2;
     int max = 31536000;
-    Get_normal_time(Get_unix_time(*this) + (min + rand() % (max - min + 1)), next);
+    GetNormalTime(GetUnixTime(*this) + (min + rand() % (max - min + 1)), next);
 }
 
-void Datetime::Get_prev_date(Datetime& prev)
+void Datetime::GetPrevDate(Datetime& prev)
 {
     int min = 2419200 * 2;
     int max = 31536000;
-    Get_normal_time(Get_unix_time(*this) - (min + rand() % (max - min + 1)), prev);
+    GetNormalTime(GetUnixTime(*this) - (min + rand() % (max - min + 1)), prev);
 }
 
-time_t Get_unix_time(Datetime A)
+time_t GetUnixTime(Datetime A)
 {
     tm timeinfo;
     timeinfo.tm_year = A.Get(_year_) - 1900;
@@ -86,7 +86,7 @@ time_t Get_unix_time(Datetime A)
     return unix_time;
 }
 
-void Get_normal_time(time_t unix_time, Datetime& A)
+void GetNormalTime(time_t unix_time, Datetime& A)
 {
     tm timeinfo;
     localtime_s(&timeinfo, &unix_time);

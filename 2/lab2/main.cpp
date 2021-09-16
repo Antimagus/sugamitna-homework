@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Datetime* Read_file_date(string file_name, int& n)
+Datetime* ReadFileDate(string file_name, int& n)
 {
     int hour, minute, second, day, month, year;
     ifstream file(file_name);
@@ -42,14 +42,14 @@ int main()
     srand(time(0));
     Datetime date, next, prev;
     int n;
-    Datetime* Date = Read_file_date("data.txt", n);
+    Datetime* Date = ReadFileDate("data.txt", n);
     Datetime* Prev = new Datetime[n];
-    date.System_time(date); printf("\n\nSystem time: "); date.Output();
+    date.SystemTime(date); printf("\n\nSystem time: "); date.Output();
     printf("\n\n\tData read from file:\n\n");
     for (int i = 0; i < n; i++)
     {
-        Date[i].Get_next_date(next);
-        Date[i].Get_prev_date(prev);
+        Date[i].GetNextDate(next);
+        Date[i].GetPrevDate(prev);
         printf("%i)\t", i + 1);
         Date[i].Output(); 
         printf("\t");

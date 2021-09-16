@@ -23,15 +23,15 @@ class Datetime
 
     public:
         void Output();
-        void System_time(Datetime& system);
-        void Get_next_date(Datetime& next);
-        void Get_prev_date(Datetime& prev);
+        void SystemTime(Datetime& system);
+        void GetNextDate(Datetime& next);
+        void GetPrevDate(Datetime& prev);
 
         void Set(int data, int type_of_date);
 
         int Get(int type_of_date);
 
 };
-time_t Get_unix_time(Datetime A);
-void Get_normal_time(time_t unix_time, Datetime& A);
+time_t GetUnixTime(Datetime A);
+void GetNormalTime(time_t unix_time, Datetime& A);
 #endif
