@@ -1,16 +1,13 @@
-#ifndef UI_h
-#define UI_h
+#pragma once
 #include "Datetime.h"
-
+#include <string>
 class UI
 {
-    public:
-        void PrintSystemDate(Datetime date);
-        void PrintDateNextPrev(Datetime date, Datetime next, Datetime prev, int i);
-        void PrintDateNextPrev(Datetime date, Datetime prev, int i);
-    
-    private:
-        void Output(Datetime date);
+	public:
+		void PrintMessage(std::string message);
+		void PrintErrorMessage(std::string message);
+		void PrintDate(Datetime date);
+		void PrintTableRow(int i, Datetime date1, Datetime date2, Datetime date3);
+		void PrintTableRow(int i, Datetime date1, Datetime date2);
 };
 
-#endif

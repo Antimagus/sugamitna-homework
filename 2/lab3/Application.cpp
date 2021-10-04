@@ -1,56 +1,19 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <time.h>
 #include "Application.h"
-#include "UI.h"
 
 using namespace std;
 
-void Application::Run(string fileName)
+void Application::ReadDate(string fileName)
 {
-    srand(time(0));
-    Datetime date, next, prev;
-    DatetimeRandom randomDate;
-    UI ui;
-    int n;
-    Datetime* Date = ReadFileDate(fileName, n);
-    Datetime* Prev = new Datetime[n];
-    date.SystemTime(date);
-    ui.PrintSystemDate(date);
-    printf("\n\n\tData read from file:\n\n");
-    for (int i = 0; i < n; i++)
-    {
-        randomDate.date = Date[i];
-        next = randomDate.NextDate();
-        prev = randomDate.PrevDate();
-        Prev[i] = prev;
-        ui.PrintDateNextPrev(Date[i], next, prev, i);
-    }
-    printf("\n\tVariant 8:\n\n");
-    for (int i = 0; i < n; i++)
-    {
-        if (Date[i].Get(_year_) == Prev[i].Get(_year_))
-        {
-            ui.PrintDateNextPrev(Date[i], Prev[i], i);
-        }
-    }
-    delete[] Date;
-    delete[] Prev;
-}
-
-Datetime* Application::ReadFileDate(string fileName, int& n)
-{
+    bool error;
+    bool error_ = false;
     int hour, minute, second, day, month, year;
     ifstream file(fileName);
     string line;
-    n = 0;
     while (getline(file, line))
     {
-        n++;
+        dateSize++;
     }
-    Datetime* Date = new Datetime[n];
+    date = new Datetime[dateSize];
     int i = 0;
     file.clear();
     file.seekg(0, ios::beg);
@@ -58,9 +21,62 @@ Datetime* Application::ReadFileDate(string fileName, int& n)
     {
         istringstream line_(line);
         line_ >> hour >> minute >> second >> day >> month >> year;
-        Date[i] = Datetime(hour, minute, second, day, month, year);
+        date[i] = Datetime(hour, minute, second, day, month, year, error);
+        if (error)
+        {
+            date[i] = Datetime();
+            error_ = true;
+        }
         i++;
     }
+    if (error_)
+    {
+        ui.PrintErrorMessage("\nНекорректные данные! Вместо них будет использоваться текущее время.\n");
+    }
     file.close();
-    return Date;
+}
+
+Application::Application()
+{
+    date = NULL;
+    prev = NULL;
+    dateSize = 0;
+}
+
+Application::~Application()
+{
+    delete[] date;
+    delete[] prev;
+}
+
+void Application::Main()
+{
+    Datetime dateNext, datePrev;
+    prev = new Datetime[dateSize];
+    ui.PrintMessage("\n\tСчитанные данные:\n");
+    for (int i = 0; i < dateSize; i++)
+    {
+        dateNext = date[i];
+        datePrev = date[i];
+        dateNext.NextDate();
+        datePrev.PrevDate();
+        ui.PrintTableRow(i + 1, date[i], dateNext, datePrev);
+        prev[i] = datePrev;
+    }
+    ui.PrintMessage("\n\nЗадание варианта №8:\n\n");
+    for(int i = 0; i < dateSize; i++)
+    {
+        if (date[i].Get(_year_) == prev[i].Get(_year_))
+        {
+            ui.PrintTableRow(i + 1, date[i], prev[i]);
+        }
+    }
+}
+
+void Application::SystemDate()
+{
+    Datetime dateTemp;
+    dateTemp.SystemDate();
+    ui.PrintMessage("\t\nСистемное время: ");
+    ui.PrintDate(dateTemp);
 }

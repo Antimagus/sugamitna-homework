@@ -1,33 +1,37 @@
-#include <iostream>
 #include "UI.h"
+#include <iostream>
 
-void UI::Output(Datetime date)
+void UI::PrintDate(Datetime date)
 {
-    printf("%i:%i:%i %i/%i/%i", date.Get(_hour_), date.Get(_minute_), date.Get(_second_),date.Get(_day_), date.Get(_month_), date.Get(_year_));
+    printf("\t%i:%i:%i %i/%i/%i", date.Get(_hour_), date.Get(_minute_), date.Get(_second_), date.Get(_day_), date.Get(_month_), date.Get(_year_));
 }
 
-void UI::PrintDateNextPrev(Datetime date, Datetime next, Datetime prev, int i)
+void UI::PrintTableRow(int i, Datetime date1, Datetime date2, Datetime date3)
 {
-    printf("%i)\t", i + 1);
-    Output(date);
+    printf("\x1b[36m%i) \x1b[0m", i);
+    PrintDate(date1);
     printf("\t");
-    Output(next);
+    PrintDate(date2);
     printf("\t");
-    Output(prev);
+    PrintDate(date3);
     printf("\n");
 }
 
-void UI::PrintDateNextPrev(Datetime date, Datetime prev, int i)
+void UI::PrintTableRow(int i, Datetime date1, Datetime date2)
 {
-    printf("%i)\t", i + 1);
-    Output(date);
+    printf("\x1b[32m%i) \x1b[0m", i);
+    PrintDate(date1);
     printf("\t");
-    Output(prev);
+    PrintDate(date2);
     printf("\n");
 }
 
-void UI::PrintSystemDate(Datetime date)
+void UI::PrintMessage(std::string message)
 {
-    printf("\n\nSystem time: "); 
-    Output(date);
-};
+    printf("\x1b[33m%s\x1b[0m", message.c_str());
+}
+
+void UI::PrintErrorMessage(std::string message)
+{
+    printf("\x1b[31m%s\x1b[0m", message.c_str());
+}

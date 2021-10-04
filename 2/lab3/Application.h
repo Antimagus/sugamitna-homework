@@ -1,17 +1,22 @@
-#ifndef Application_h
-#define Application_h
-#include "Datetime.h"
-#include <string>
-
-using namespace std;
+#pragma once
+#include "UI.h"
+#include <fstream>
+#include <sstream>
 
 class Application
 {
-    public:
-        void Run(string fileName);
-    
-    private:
-        Datetime* ReadFileDate(string fileName, int& n);
+	private:
+		UI ui;
+		Datetime* date;
+		Datetime* prev;
+		int dateSize;
+	public:
+		void ReadDate(std::string fileName);
+		void Main();
+		void SystemDate();
+	
+	Application();
+
+	~Application();
 };
 
-#endif
