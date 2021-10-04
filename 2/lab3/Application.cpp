@@ -63,7 +63,7 @@ void Application::Main()
         ui.PrintTableRow(i + 1, date[i], dateNext, datePrev);
         prev[i] = datePrev;
     }
-    ui.PrintMessage("\n\nTask of variant ¹8:\n\n");
+    ui.PrintMessage("\n\nTask of variant 8:\n\n");
     for(int i = 0; i < dateSize; i++)
     {
         if (date[i].Get(_year_) == prev[i].Get(_year_))
