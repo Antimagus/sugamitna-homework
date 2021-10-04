@@ -31,7 +31,7 @@ void Application::ReadDate(string fileName)
     }
     if (error_)
     {
-        ui.PrintErrorMessage("\nНекорректные данные! Вместо них будет использоваться текущее время.\n");
+        ui.PrintErrorMessage("\nIncorrect data! The current time will be used instead.\n");
     }
     file.close();
 }
@@ -53,7 +53,7 @@ void Application::Main()
 {
     Datetime dateNext, datePrev;
     prev = new Datetime[dateSize];
-    ui.PrintMessage("\n\tСчитанные данные:\n");
+    ui.PrintMessage("\n\tRead data:\n");
     for (int i = 0; i < dateSize; i++)
     {
         dateNext = date[i];
@@ -63,7 +63,7 @@ void Application::Main()
         ui.PrintTableRow(i + 1, date[i], dateNext, datePrev);
         prev[i] = datePrev;
     }
-    ui.PrintMessage("\n\nЗадание варианта №8:\n\n");
+    ui.PrintMessage("\n\nTask of variant №8:\n\n");
     for(int i = 0; i < dateSize; i++)
     {
         if (date[i].Get(_year_) == prev[i].Get(_year_))
@@ -77,6 +77,6 @@ void Application::SystemDate()
 {
     Datetime dateTemp;
     dateTemp.SystemDate();
-    ui.PrintMessage("\t\nСистемное время: ");
+    ui.PrintMessage("\t\nSystem time:");
     ui.PrintDate(dateTemp);
 }
