@@ -1,6 +1,5 @@
 #pragma once
 #include "Datetime.h"
-#include <windows.h>
 
 enum {
     _millisecond_ = 6

@@ -4,17 +4,13 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     Datetime datetime;
     DatetimeMsecond datetimemsecond;
     Datetime* dt = &datetimemsecond;
     dt->PrintDate();
     dt = &datetime;
     dt->PrintDate();
-	return 0;
+    return 0;
 }
-
-
-
-
-

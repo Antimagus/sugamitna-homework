@@ -1,5 +1,6 @@
 #include "DatetimeMsecond.h"
 #include <iostream>
+#include <windows.h>
 
 DatetimeMsecond::DatetimeMsecond() : Datetime() {
     SYSTEMTIME st;
