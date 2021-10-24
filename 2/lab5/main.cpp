@@ -38,6 +38,8 @@ int main()
 		break;
 	}
 	default:
+		delete F;
+		return 0;
 		break;
 	}
 	cout << "Enter the height of the cylinder:\n";
