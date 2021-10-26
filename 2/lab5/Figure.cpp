@@ -20,8 +20,7 @@ double Circle::Perimeter()
 
 Circle* Circle::Clone()
 {
-	Circle* clone = new Circle(r);
-	return clone;
+	return new Circle(*this);
 }
 
 double Triangle::Perimeter()
@@ -53,8 +52,7 @@ Triangle::Triangle(double A, double B, double C)
 
 Triangle* Triangle::Clone()
 {
-	Triangle* clone = new Triangle(a, b, c);
-	return clone;
+	return new Triangle(*this);
 }
 
 double Ring::Perimeter()
@@ -69,8 +67,7 @@ double Ring::Area()
 
 Ring* Ring::Clone()
 {
-	Ring* clone = new Ring(r, R);
-	return clone;
+	return new Ring(*this);
 }
 
 Ring::Ring(double r1, double r2)
