@@ -14,65 +14,76 @@ Cylinder::Cylinder(Figure* f, double h)
 	this->f = f;
 }
 
-Cylinder::~Cylinder()
-{
-	delete f;
-}
+Cylinder::~Cylinder() {}
 
 //______________________CircleCylinder______________________________
 
-CircleCylinder* CircleCylinder::CreateInstance(double r, double h)
+CircleCylinder* CircleCylinder::CreateInstance(Circle* f, double h)
 {
-	Circle* C = new Circle(r);
-	CircleCylinder* CC = new CircleCylinder(C, h);
-	//delete C;
-	return CC;
+	Circle* circle = new Circle(*f);
+	CircleCylinder* circleCylinder = new CircleCylinder(circle, h);
+	return circleCylinder;
 }
 
 double CircleCylinder::GetRadius()
 {
-	Circle* C = (Circle*)f;
-	return C->GetRadius();
+	Circle* circle = (Circle*)f;
+	return circle->GetRadius();
 }
 
 CircleCylinder::CircleCylinder(Circle* f, double h) : Cylinder(f, h) {}
 
+CircleCylinder::~CircleCylinder()
+{
+	delete (Circle*)f;
+}
+
 //______________________TriangleCylinder______________________________
 
-TriangleCylinder* TriangleCylinder::CreateInstance(double a, double b, double c, double h)
+TriangleCylinder* TriangleCylinder::CreateInstance(Triangle* f, double h)
 {
-	Triangle* T = new Triangle(a, b, c);
-	TriangleCylinder* TC = new TriangleCylinder(T, h);
-	return TC;
+	Triangle* triangle = new Triangle(*f);
+	TriangleCylinder* triangleCylinder = new TriangleCylinder(triangle, h);
+	return triangleCylinder;
 }
 
 double TriangleCylinder::GetSide(int number)
 {
-	Triangle* T = (Triangle*)f;
-	return T->GetSide(number);
+	Triangle* triangle = (Triangle*)f;
+	return triangle->GetSide(number);
 }
 
 TriangleCylinder::TriangleCylinder(Triangle* f, double h) : Cylinder(f, h) {}
 
+TriangleCylinder::~TriangleCylinder()
+{
+	delete (Triangle*)f;
+}
+
 //______________________RingCylinder______________________________
 
-RingCylinder* RingCylinder::CreateInstance(double r, double R, double h)
+RingCylinder* RingCylinder::CreateInstance(Ring* f, double h)
 {
-	Ring* R_ = new Ring(r, R);
-	RingCylinder* RC = new RingCylinder(R_, h);
-	return RC;
+	Ring* ring = new Ring(*f);
+	RingCylinder* ringCylinder = new RingCylinder(ring, h);
+	return ringCylinder;
 }
 
 double RingCylinder::GetSmallRadius()
 {
-	Ring* T = (Ring*)f;
-	return T->GetSmallRadius();
+	Ring* ring = (Ring*)f;
+	return ring->GetSmallRadius();
 }
 
 double RingCylinder::GetBigRadius()
 {
-	Ring* T = (Ring*)f;
-	return T->GetBigRadius();
+	Ring* ring = (Ring*)f;
+	return ring->GetBigRadius();
 }
 
 RingCylinder::RingCylinder(Ring* f, double h) : Cylinder(f, h) {}
+
+RingCylinder::~RingCylinder()
+{
+	delete (Ring*)f;
+}

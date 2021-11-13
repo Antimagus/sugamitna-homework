@@ -10,39 +10,46 @@ class Cylinder : public Figure3D
 {
 protected:
 	Figure* f;
+	Cylinder(Figure* f, double h);
+
 private:
 	double h;
+
 public:
 	double CalcVolume();
-
-	Cylinder(Figure* f, double h);
-	~Cylinder();
+	virtual ~Cylinder();
 };
 
 class CircleCylinder : public Cylinder
 {	
-public:
-	static CircleCylinder* CreateInstance(double r, double h);
-	double GetRadius();
-
+private:
 	CircleCylinder(Circle* f, double h);
+
+public:
+	static CircleCylinder* CreateInstance(Circle* f, double h);
+	double GetRadius();
+	~CircleCylinder();
 };
 
 class TriangleCylinder : public Cylinder
 {
-public:
-	static TriangleCylinder* CreateInstance(double a, double b, double c, double h);
-	double GetSide(int number);
-
+private:
 	TriangleCylinder(Triangle* f, double h);
+
+public:
+	static TriangleCylinder* CreateInstance(Triangle* f, double h);
+	double GetSide(int number);
+	~TriangleCylinder();
 };
 
 class RingCylinder : public Cylinder
 {
+private:
+	RingCylinder(Ring* f, double h);
+
 public:
-	static RingCylinder* CreateInstance(double r, double R, double h);
+	static RingCylinder* CreateInstance(Ring* f, double h);
 	double GetSmallRadius();
 	double GetBigRadius();
-
-	RingCylinder(Ring* f, double h);
+	~RingCylinder();
 };

@@ -18,7 +18,9 @@ int main()
 		double r;
 		cout << "Enter the radius:\n";
 		cout << "r = "; cin >> r;
-		X = CircleCylinder::CreateInstance(r, h);
+		Circle* c = new Circle(r);
+		X = CircleCylinder::CreateInstance(c, h);
+		delete c;
 		break;
 	}
 	case 2:
@@ -28,7 +30,9 @@ int main()
 		cout << "a = "; cin >> a;
 		cout << "b = "; cin >> b;
 		cout << "c = "; cin >> c;
-		X = TriangleCylinder::CreateInstance(a, b, c, h);
+		Triangle* t = new Triangle(a, b, c);
+		X = TriangleCylinder::CreateInstance(t, h);
+		delete t;
 		break;
 	}
 	case 3:
@@ -37,7 +41,9 @@ int main()
 		cout << "Enter the ring radii:\n";
 		cout << "r1 = "; cin >> r1;
 		cout << "r2 = "; cin >> r2;
-		X = RingCylinder::CreateInstance(r1, r2, h);
+		Ring* r = new Ring(r1, r2);
+		X = RingCylinder::CreateInstance(r, h);
+		delete r;
 		break;
 	}
 	default:
@@ -46,4 +52,5 @@ int main()
 	}
 	cout << "The resulting volume of the figure:\n";
 	cout << X->CalcVolume();
+	delete X;
 }
