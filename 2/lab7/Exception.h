@@ -2,10 +2,10 @@
 #include <string>
 class Exception
 {
-public:
+private:
 	int code;
 	std::string message;
-	
+public:
 	Exception(int code, std::string message);
 	~Exception();
 	void Show();
