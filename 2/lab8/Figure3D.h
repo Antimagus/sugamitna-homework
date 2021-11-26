@@ -28,5 +28,8 @@ public:
 	{
 		return h * f->CalcArea();
 	}
-	~Cylinder() {};
+	~Cylinder()
+	{
+		delete f;
+	};
 };
