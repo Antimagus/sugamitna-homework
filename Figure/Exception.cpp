@@ -1,6 +1,5 @@
 #include "Exception.h"
-#include <string>
-#include <iostream>
+
 Exception::Exception(int code, std::string message)
 {
 	this->code = code;

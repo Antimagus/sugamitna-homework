@@ -1,10 +1,21 @@
 #pragma once
 #include <QGraphicsItem>
+#include <cmath>
+#include "Exception.h"
+#include <QPainter>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QMainWindow>
+#include <QGraphicsSceneMouseEvent>
+#define _USE_MATH_DEFINES
 class Figure : public QGraphicsItem
 {
 public:
 	virtual double CalcArea() = 0;
 	virtual double CalcPerimeter() = 0;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 };
 
 class Circle : public Figure
@@ -21,6 +32,10 @@ public:
 	Circle(double r);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+signals:
+
+public slots:
 };
 
 class Triangle : public Figure
@@ -29,6 +44,11 @@ private:
 	double a;
 	double b;
 	double c;
+
+    double
+    x1, y1,
+    x2, y2,
+    x3, y3;
 
     QRectF boundingRect() const;
 public:
@@ -41,7 +61,7 @@ public:
 	double CalcPerimeter();
 	double GetSide(int number);
 
-	Triangle(double a, double b, double c);
+    Triangle(double x1, double y1, double x2, double y2, double x3, double y3);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 };
