@@ -1,24 +1,5 @@
 #include "Figure.h"
 
-//______________________Figure______________________________
-
-void Figure::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    this->setPos(mapToScene(event->pos()));
-}
-
-void Figure::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    this->setCursor(QCursor(Qt::ClosedHandCursor));
-    Q_UNUSED(event);
-}
-
-void Figure::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    this->setCursor(QCursor(Qt::ArrowCursor));
-    Q_UNUSED(event);
-}
-
 //______________________Circle______________________________
 
 double Circle::CalcArea()
@@ -49,7 +30,6 @@ QRectF Circle::boundingRect() const
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::black);
     painter->drawEllipse(0, 0, r, r);
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -122,7 +102,6 @@ void Triangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 {
     QPolygon polygon;
     polygon << QPoint(x1, y1) << QPoint(x2, y2) << QPoint(x3, y3);
-    painter->setBrush(Qt::black);
     painter->drawPolygon(polygon);
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -174,9 +153,7 @@ QRectF Ring::boundingRect() const
 
 void Ring::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::black);
     painter->drawEllipse(0, 0, R, R);
-    painter->setBrush(Qt::white);
     painter->drawEllipse((R-r)/2, (R-r)/2, r, r);
     Q_UNUSED(option);
     Q_UNUSED(widget);

@@ -13,9 +13,6 @@ class Figure : public QGraphicsItem
 public:
 	virtual double CalcArea() = 0;
 	virtual double CalcPerimeter() = 0;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 };
 
 class Circle : public Figure

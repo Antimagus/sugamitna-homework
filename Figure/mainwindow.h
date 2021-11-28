@@ -24,9 +24,11 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
     QToolBar *toolbar;
+    QList<QGraphicsItem *> figures;
 public slots:
-    void createCircle();
-    void createTriangle();
-    void createRing();
+    void slotCreateCircle();
+    void slotCreateTriangle();
+    void slotCreateRing();
+    void slotDelete();
 };
 #endif // MAINWINDOW_H
