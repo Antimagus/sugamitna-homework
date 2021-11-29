@@ -21,6 +21,9 @@ public:
     ~MainWindow();
 
 private:
+    int h;
+    int w;
+
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
     QToolBar *toolbar;

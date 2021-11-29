@@ -1,4 +1,5 @@
 #include "Figure.h"
+#include "mainwindow.h"
 
 //______________________Circle______________________________
 
@@ -30,6 +31,7 @@ QRectF Circle::boundingRect() const
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setBrush(Qt::white);
     painter->drawEllipse(0, 0, r, r);
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -92,14 +94,12 @@ Triangle::Triangle(double x1, double y1, double x2, double y2, double x3, double
 
 QRectF Triangle::boundingRect() const
 {
-    double min = a;
-    if(b < min) min = b;
-    if(c < min) min = c;
-    return QRectF(0, 0, min, min);
+    return QRectF(0, 0, a + b, a + b);
 }
 
 void Triangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setBrush(Qt::white);
     QPolygon polygon;
     polygon << QPoint(x1, y1) << QPoint(x2, y2) << QPoint(x3, y3);
     painter->drawPolygon(polygon);
@@ -153,7 +153,9 @@ QRectF Ring::boundingRect() const
 
 void Ring::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setBrush(Qt::white);
     painter->drawEllipse(0, 0, R, R);
+    painter->setBrush(Qt::black);
     painter->drawEllipse((R-r)/2, (R-r)/2, r, r);
     Q_UNUSED(option);
     Q_UNUSED(widget);

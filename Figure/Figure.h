@@ -3,11 +3,8 @@
 #include <cmath>
 #include "Exception.h"
 #include <QPainter>
-#include <QGuiApplication>
-#include <QScreen>
-#include <QMainWindow>
-#include <QGraphicsSceneMouseEvent>
 #define _USE_MATH_DEFINES
+
 class Figure : public QGraphicsItem
 {
 public:
