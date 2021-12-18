@@ -1,7 +1,5 @@
 #pragma once
 #include <string>
-#include <string>
-#include <iostream>
 class Exception
 {
 private:

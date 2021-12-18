@@ -2,12 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
-#include "ui_mainwindow.h"
-#include "Figure.h"
-#include <QScreen>
 #include <QToolBar>
-
+#include <QInputDialog>
+#include <QColorDialog>
+#include "figureitem.h"
+#include <list>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,17 +22,19 @@ public:
     ~MainWindow();
 
 private:
-    int h;
-    int w;
-
     Ui::MainWindow *ui;
-    QGraphicsScene* scene;
     QToolBar *toolbar;
-    QList<QGraphicsItem *> figures;
+    QGraphicsScene* scene;
+    QColor color;
+    QString path;
 public slots:
     void slotCreateCircle();
     void slotCreateTriangle();
     void slotCreateRing();
     void slotDelete();
+    void slotSetColor();
+    void slotSave();
 };
 #endif // MAINWINDOW_H
+
+

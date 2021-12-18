@@ -1,56 +1,53 @@
+#define _USE_MATH_DEFINES
 #include "Figure.h"
-#include "mainwindow.h"
-
+#include <cmath>
+#include "Exception.h"
 //______________________Circle______________________________
 
-double Circle::CalcArea()
+double Circle::calcArea()
 {
 	return M_PI * r * r;
 }
 
-double Circle::CalcPerimeter()
+double Circle::calcPerimeter()
 {
 	return 2 * M_PI * r;
 }
 
-double Circle::GetRadius()
+int Circle::getRadius()
 {
 	return r;
 }
 
-Circle::Circle(double r)
+void Circle::setRadius(int r)
+{
+    this->r = r;
+}
+Circle::Circle(int r)
 {
 	if (r > 0) this->r = r;
 	else throw Exception(1, "Error creating circle");
 }
 
-QRectF Circle::boundingRect() const
+Circle::~Circle()
 {
-    return QRectF(0, 0, r, r);
-}
 
-void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    painter->setBrush(Qt::white);
-    painter->drawEllipse(0, 0, r, r);
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
 }
 
 //______________________Triangle______________________________
 
-double Triangle::CalcArea()
+double Triangle::calcArea()
 {
-	double p = CalcPerimeter() / 2;
+    double p = calcPerimeter() / 2;
 	return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-double Triangle::CalcPerimeter()
+double Triangle::calcPerimeter()
 {
 	return a + b + c;
 }
 
-double Triangle::GetSide(int number)
+double Triangle::getSide(int number)
 {
 	switch (number)
 	{
@@ -72,16 +69,16 @@ double Triangle::GetSide(int number)
 	throw Exception(0, "Error select side");
 }
 
-Triangle::Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
+Triangle::Triangle(int x1, int y1, int x2, int y2, int x3, int y3)
 {
-    double A = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
-    double B = sqrt(pow(x2 - x3, 2) + pow(y2 - y3, 2));
-    double C = sqrt(pow(x1 - x3, 2) + pow(y1 - y3, 2));
-    if (A > 0 && B > 0 && C > 0 && (A + B) > C && (A + C) > B && (B + C) > A)
+    double a = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+    double b = sqrt(pow(x2 - x3, 2) + pow(y2 - y3, 2));
+    double c = sqrt(pow(x1 - x3, 2) + pow(y1 - y3, 2));
+	if (a > 0 && b > 0 && c > 0 && (a + b) > c && (a + c) > b && (b + c) > a)
 	{
-        this->a = A;
-        this->b = B;
-        this->c = C;
+        this->a = a;
+        this->b = b;
+        this->c = c;
         this->x1 = x1;
         this->y1 = y1;
         this->x2 = x2;
@@ -92,43 +89,47 @@ Triangle::Triangle(double x1, double y1, double x2, double y2, double x3, double
 	else throw Exception(1, "Error creating triangle");
 }
 
-QRectF Triangle::boundingRect() const
+void Triangle::getCoor(int& x1, int& y1, int& x2, int& y2, int& x3, int& y3)
 {
-    return QRectF(0, 0, a + b, a + b);
+    x1 = this->x1;
+    y1 = this->y1;
+    x2 = this->x2;
+    y2 = this->y2;
+    x3 = this->x3;
+    y3 = this->y3;
 }
 
-void Triangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+Triangle::~Triangle()
 {
-    painter->setBrush(Qt::white);
-    QPolygon polygon;
-    polygon << QPoint(x1, y1) << QPoint(x2, y2) << QPoint(x3, y3);
-    painter->drawPolygon(polygon);
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-}
 
+}
 //______________________Ring______________________________
 
-double Ring::CalcArea()
+double Ring::calcArea()
 {
 	return M_PI * R * R - M_PI * r * r;
 }
 
-double Ring::CalcPerimeter()
+double Ring::calcPerimeter()
 {
 	return 2 * M_PI * r + 2 * M_PI * R;
 }
 
-double Ring::GetSmallRadius()
+int Ring::getSmallRadius()
 {
 	return r;
 }
-double Ring::GetBigRadius()
+int Ring::getBigRadius()
 {
 	return R;
 }
 
-Ring::Ring(double r, double R)
+Ring::~Ring()
+{
+
+}
+
+Ring::Ring(int r, int R)
 {
 	if (r > 0 && R > 0 && r != R)
 	{
@@ -144,19 +145,4 @@ Ring::Ring(double r, double R)
 		}
 	}
 	else throw Exception(1, "Error creating ring");
-}
-
-QRectF Ring::boundingRect() const
-{
-    return QRectF(0, 0, R, R);
-}
-
-void Ring::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    painter->setBrush(Qt::white);
-    painter->drawEllipse(0, 0, R, R);
-    painter->setBrush(Qt::black);
-    painter->drawEllipse((R-r)/2, (R-r)/2, r, r);
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
 }

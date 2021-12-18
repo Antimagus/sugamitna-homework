@@ -1,35 +1,22 @@
 #pragma once
-#include <QGraphicsItem>
-#include <cmath>
-#include "Exception.h"
-#include <QPainter>
-#define _USE_MATH_DEFINES
-
-class Figure : public QGraphicsItem
+class Figure
 {
 public:
-	virtual double CalcArea() = 0;
-	virtual double CalcPerimeter() = 0;
+    virtual double calcArea() = 0;
+    virtual double calcPerimeter() = 0;
 };
 
 class Circle : public Figure
 {
 private:
-	double r;
-
-    QRectF boundingRect() const;
+    int r;
 public:
-	double CalcArea();
-	double CalcPerimeter();
-	double GetRadius();
-
-	Circle(double r);
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-signals:
-
-public slots:
+    double calcArea();
+    double calcPerimeter();
+    int getRadius();
+    void setRadius(int r);
+    Circle(int r);
+    virtual ~Circle();
 };
 
 class Triangle : public Figure
@@ -38,42 +25,35 @@ private:
 	double a;
 	double b;
 	double c;
-
-    double
-    x1, y1,
+    int x1, y1,
     x2, y2,
     x3, y3;
-
-    QRectF boundingRect() const;
 public:
 	enum side{
 		A = 1,
 		B = 2,
 		C = 3,
 	};
-	double CalcArea();
-	double CalcPerimeter();
-	double GetSide(int number);
+    double calcArea();
+    double calcPerimeter();
+    double getSide(int number);
+    void getCoor(int& x1, int& y1, int& x2, int& y2, int& x3, int& y3);
 
-    Triangle(double x1, double y1, double x2, double y2, double x3, double y3);
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    Triangle(int x1, int y1, int x2, int y2, int x3, int y3);
+    virtual ~Triangle();
 };
 
 class Ring : public Figure
 {
 private:
-	double r;
-	double R;
-
-    QRectF boundingRect() const;
+    int r;
+    int R;
 public:
-	double CalcArea();
-	double CalcPerimeter();
-	double GetSmallRadius();
-	double GetBigRadius();
+    double calcArea();
+    double calcPerimeter();
+    int getSmallRadius();
+    int getBigRadius();
 
-	Ring(double r, double R);
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    Ring(int r, int R);
+    virtual ~Ring();
 };
