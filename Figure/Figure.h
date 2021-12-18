@@ -13,8 +13,9 @@ private:
 public:
     double calcArea();
     double calcPerimeter();
-    int getRadius();
-    void setRadius(int r);
+    int getR();
+    void setR(int r);
+
     Circle(int r);
     virtual ~Circle();
 };
@@ -38,6 +39,7 @@ public:
     double calcPerimeter();
     double getSide(int number);
     void getCoor(int& x1, int& y1, int& x2, int& y2, int& x3, int& y3);
+    void setCoor(int x1, int y1, int x2, int y2, int x3, int y3);
 
     Triangle(int x1, int y1, int x2, int y2, int x3, int y3);
     virtual ~Triangle();
@@ -51,8 +53,10 @@ private:
 public:
     double calcArea();
     double calcPerimeter();
-    int getSmallRadius();
-    int getBigRadius();
+    int getr();
+    int getR();
+    void setr(int r);
+    void setR(int R);
 
     Ring(int r, int R);
     virtual ~Ring();

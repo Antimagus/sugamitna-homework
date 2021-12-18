@@ -20,15 +20,12 @@ private:
     QPointF point;
     QPointF position;
     QColor color;
-    QString InfoCoor;
-    QString InfoFigure;
 
 protected:
     QPainterPath path;
     QRectF bounding;
+    Figure* figure;
     FigureItem(QPoint position, QColor color);
-    void setInfoCoor(QPointF position);
-    void setInfoFigure(Figure*);
     void updateInfo();
 public:
     virtual ~FigureItem();
@@ -39,30 +36,24 @@ class CircleItem : public FigureItem
 private:
     void setPaint();
 public:
-    Circle* circle;
     CircleItem(Circle circle, QPoint position, QColor color);
-    void scalling(int i)
-    {
-        circle->setRadius(circle->getRadius() * i);
-        setPaint();
-        setInfoFigure(circle);
-        updateInfo();
-    }
     ~CircleItem();
 };
 
 class TriangleItem : public FigureItem
 {
+private:
+    void setPaint();
 public:
-    Triangle* triangle;
     TriangleItem(Triangle triangle, QPoint position, QColor color);
     ~TriangleItem();
 };
 
 class RingItem : public FigureItem
 {
+private:
+    void setPaint();
 public:
-    Ring* ring;
     RingItem(Ring ring, QPoint position, QColor color);
     ~RingItem();
 };

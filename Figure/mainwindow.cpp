@@ -77,7 +77,6 @@ void MainWindow::slotCreateCircle()
     {
         CircleItem* circleItem = new CircleItem(Circle(r), QPoint(0, 0), color);
         scene->addItem(circleItem);
-        //circleItem->scalling(2);
     }
 }
 
@@ -147,10 +146,7 @@ void MainWindow::slotCreateTriangle()
                                                                    X3->value(), Y3->value()), QPoint(0, 0), color);
             scene->addItem(triangleItem);
         }
-        catch(...)
-        {
-
-        }
+        catch(...) {}
     }
     delete X1;
     delete Y1;
@@ -189,10 +185,7 @@ void MainWindow::slotCreateRing()
             RingItem* ringItem = new RingItem(Ring(r->value(),R->value()), QPoint(0, 0), color);
             scene->addItem(ringItem);
         }
-        catch(...)
-        {
-
-        }
+        catch(...) {}
     }
     delete r;
     delete R;

@@ -14,15 +14,16 @@ double Circle::calcPerimeter()
 	return 2 * M_PI * r;
 }
 
-int Circle::getRadius()
+int Circle::getR()
 {
 	return r;
 }
 
-void Circle::setRadius(int r)
+void Circle::setR(int r)
 {
     this->r = r;
 }
+
 Circle::Circle(int r)
 {
 	if (r > 0) this->r = r;
@@ -89,6 +90,25 @@ Triangle::Triangle(int x1, int y1, int x2, int y2, int x3, int y3)
 	else throw Exception(1, "Error creating triangle");
 }
 
+void Triangle::setCoor(int x1, int y1, int x2, int y2, int x3, int y3)
+{
+    double a = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+    double b = sqrt(pow(x2 - x3, 2) + pow(y2 - y3, 2));
+    double c = sqrt(pow(x1 - x3, 2) + pow(y1 - y3, 2));
+    if (a > 0 && b > 0 && c > 0 && (a + b) > c && (a + c) > b && (b + c) > a)
+    {
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->x1 = x1;
+        this->y1 = y1;
+        this->x2 = x2;
+        this->y2 = y2;
+        this->x3 = x3;
+        this->y3 = y3;
+    }
+}
+
 void Triangle::getCoor(int& x1, int& y1, int& x2, int& y2, int& x3, int& y3)
 {
     x1 = this->x1;
@@ -115,11 +135,11 @@ double Ring::calcPerimeter()
 	return 2 * M_PI * r + 2 * M_PI * R;
 }
 
-int Ring::getSmallRadius()
+int Ring::getr()
 {
 	return r;
 }
-int Ring::getBigRadius()
+int Ring::getR()
 {
 	return R;
 }
@@ -145,4 +165,20 @@ Ring::Ring(int r, int R)
 		}
 	}
 	else throw Exception(1, "Error creating ring");
+}
+
+void Ring::setr(int r)
+{
+    if(R > r)
+    {
+        this->r = r;
+    }
+}
+
+void Ring::setR(int R)
+{
+    if(R > r)
+    {
+        this->R = R;
+    }
 }
