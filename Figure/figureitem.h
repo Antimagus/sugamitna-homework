@@ -27,8 +27,10 @@ protected:
     Figure* figure;
     FigureItem(QPoint position, QColor color);
     void updateInfo();
+
 public:
     virtual ~FigureItem();
+    virtual void scale(int i) = 0;
 };
 
 class CircleItem : public FigureItem
@@ -37,6 +39,7 @@ private:
     void setPaint();
 public:
     CircleItem(Circle circle, QPoint position, QColor color);
+    void scale(int i);
     ~CircleItem();
 };
 
@@ -46,6 +49,7 @@ private:
     void setPaint();
 public:
     TriangleItem(Triangle triangle, QPoint position, QColor color);
+    void scale(int i);
     ~TriangleItem();
 };
 
@@ -55,6 +59,7 @@ private:
     void setPaint();
 public:
     RingItem(Ring ring, QPoint position, QColor color);
+    void scale(int i);
     ~RingItem();
 };
 

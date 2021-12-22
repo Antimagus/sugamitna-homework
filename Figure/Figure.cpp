@@ -169,16 +169,10 @@ Ring::Ring(int r, int R)
 
 void Ring::setr(int r)
 {
-    if(R > r)
-    {
-        this->r = r;
-    }
+    this->r = r;
 }
 
 void Ring::setR(int R)
 {
-    if(R > r)
-    {
-        this->R = R;
-    }
+    this->R = R;
 }

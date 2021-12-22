@@ -8,7 +8,8 @@
 #include <QInputDialog>
 #include <QColorDialog>
 #include "figureitem.h"
-#include <list>
+
+#include <vector>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -27,6 +28,8 @@ private:
     QGraphicsScene* scene;
     QColor color;
     QString path;
+
+    std::vector<FigureItem*> data;
 public slots:
     void slotCreateCircle();
     void slotCreateTriangle();
@@ -34,6 +37,7 @@ public slots:
     void slotDelete();
     void slotSetColor();
     void slotSave();
+    void slotResize();
 };
 #endif // MAINWINDOW_H
 

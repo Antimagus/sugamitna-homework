@@ -39,6 +39,11 @@ MainWindow::MainWindow(QWidget *parent)
         QAction* A_setColor = toolbar->addAction(QIcon(colorpix), "Выбрать цвет");
         connect(A_setColor, SIGNAL(triggered()), this, SLOT(slotSetColor()));
 
+
+        QPixmap resizepix(":/images/resize.png");
+        QAction* A_resize = toolbar->addAction(QIcon(resizepix), "Изменить размер");
+        connect(A_resize, SIGNAL(triggered()), this, SLOT(slotResize()));
+
         toolbar->addSeparator();
 
         QPixmap savepix(":/images/save.png");
@@ -63,7 +68,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    qDeleteAll(scene->items());
+    for(auto i = data.begin(); i != data.end(); i++)
+    {
+        delete (*i);
+    }
+    data.clear();
     delete ui;
     delete toolbar;
     delete scene;
@@ -77,6 +86,7 @@ void MainWindow::slotCreateCircle()
     {
         CircleItem* circleItem = new CircleItem(Circle(r), QPoint(0, 0), color);
         scene->addItem(circleItem);
+        data.push_back(circleItem);
     }
 }
 
@@ -145,6 +155,7 @@ void MainWindow::slotCreateTriangle()
                                                                    X2->value(), Y2->value(),
                                                                    X3->value(), Y3->value()), QPoint(0, 0), color);
             scene->addItem(triangleItem);
+            data.push_back(triangleItem);
         }
         catch(...) {}
     }
@@ -184,6 +195,7 @@ void MainWindow::slotCreateRing()
         {
             RingItem* ringItem = new RingItem(Ring(r->value(),R->value()), QPoint(0, 0), color);
             scene->addItem(ringItem);
+            data.push_back(ringItem);
         }
         catch(...) {}
     }
@@ -196,5 +208,33 @@ void MainWindow::slotCreateRing()
 
 void MainWindow::slotDelete()
 {
-    qDeleteAll(scene->selectedItems());
+    auto i = data.begin();
+    while(i != data.end())
+    {
+        if((*i)->isSelected())
+        {
+            delete (*i);
+            i = data.erase(i);
+        }
+        else
+        {
+            i++;
+        }
+    }
+}
+
+void MainWindow::slotResize()
+{
+    bool ok;
+    int k = QInputDialog::getInt(this,"Размер", "Индекс масштабирования", 0, 1, 10, 1, &ok);
+    if(ok)
+    {
+        for(auto i = data.begin(); i != data.end(); i++)
+        {
+            if((*i)->isSelected())
+            {
+                (*i)->scale(k);
+            }
+        }
+    }
 }

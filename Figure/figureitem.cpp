@@ -82,6 +82,14 @@ CircleItem::~CircleItem()
     delete (Circle*)figure;
 }
 
+void CircleItem::scale(int i)
+{
+    Circle* circle = (Circle*)figure;
+    circle->setR(circle->getR() * i);
+    setPaint();
+    updateInfo();
+}
+
 TriangleItem::TriangleItem(Triangle triangle, QPoint position, QColor color) : FigureItem(position, color)
 {
     figure = new Triangle(triangle);
@@ -101,6 +109,16 @@ void TriangleItem::setPaint()
 TriangleItem::~TriangleItem()
 {
     delete (Triangle*)figure;
+}
+
+void TriangleItem::scale(int i)
+{
+    Triangle* triangle = (Triangle*)figure;
+    int x1, y1, x2, y2, x3, y3;
+    triangle->getCoor(x1, y1, x2, y2, x3, y3);
+    triangle->setCoor(x1 * i, y1 * i, x2 * i, y2 * i, x3 * i, y3 * i);
+    setPaint();
+    updateInfo();
 }
 
 RingItem::RingItem(Ring ring, QPoint position, QColor color) : FigureItem(position, color)
@@ -123,4 +141,13 @@ void RingItem::setPaint()
 RingItem::~RingItem()
 {
     delete (Ring*)figure;
+}
+
+void RingItem::scale(int i)
+{
+    Ring* ring = (Ring*)figure;
+    ring->setr(ring->getr() * i);
+    ring->setR(ring->getR() * i);
+    setPaint();
+    updateInfo();
 }
