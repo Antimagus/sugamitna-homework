@@ -1,4 +1,5 @@
 ok = False
+
 while ok != True:
     password1 = input()
     password2 = input()
@@ -10,4 +11,5 @@ while ok != True:
         print("Различаются.")
     else:
         ok = True
+
 print("ОК")
