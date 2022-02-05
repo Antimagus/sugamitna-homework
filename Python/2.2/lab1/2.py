@@ -1,6 +1,3 @@
-from xmlrpc.client import boolean
-
-
 str1 = input()
 str2 = input()
 
