@@ -4,7 +4,7 @@ limit = 1
 inLine = 0
 
 while number <= n:
-    print(number, end= " ")
+    print(number, end=" ")
     number += 1
     inLine += 1
     if inLine == limit:

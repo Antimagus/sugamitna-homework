@@ -1,5 +1,6 @@
 #include "Server.h"
 
-IServer* CreateInstance(){
+IServer *CreateInstance()
+{
     return new Server();
 }

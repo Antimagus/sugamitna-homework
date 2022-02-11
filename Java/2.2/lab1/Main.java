@@ -9,21 +9,19 @@ class Main {
         Scanner in = new Scanner(System.in);
         System.out.print("Радиус: ");
         double r = in.nextDouble();
-        System.out.print("Высота: "); 
+        System.out.print("Высота: ");
         double h = in.nextDouble();
         in.close();
 
-        try{
+        try {
             figure = new Circle(r);
-        }
-        catch(Except except){
+        } catch (Except except) {
             except.show();
             return;
         }
-        try{
-            cylinder= new Cylinder<Figure>(figure, h);
-        }
-        catch(Except except){
+        try {
+            cylinder = new Cylinder<Figure>(figure, h);
+        } catch (Except except) {
             except.show();
             return;
         }
