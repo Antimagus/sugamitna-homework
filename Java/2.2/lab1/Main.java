@@ -15,14 +15,14 @@ class Main {
 
         try {
             figure = new Circle(r);
-        } catch (Except except) {
-            except.show();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
             return;
         }
         try {
             cylinder = new Cylinder<Figure>(figure, h);
-        } catch (Except except) {
-            except.show();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
             return;
         }
         System.out.println("Объем цилиндра: " + cylinder.calcVolume());
