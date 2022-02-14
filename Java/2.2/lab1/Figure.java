@@ -1,13 +1,13 @@
 import static java.lang.Math.PI;
 import static java.lang.Math.sqrt;
 
-abstract class Figure {
-    public abstract double calcArea();
+interface Figure {
+    double calcArea();
 
-    public abstract double calcPerimeter();
+    double calcPerimeter();
 }
 
-class Circle extends Figure {
+class Circle implements Figure {
     private double radius;
 
     public double calcArea() {
@@ -22,15 +22,15 @@ class Circle extends Figure {
         return radius;
     }
 
-    Circle(double radius) throws Except {
+    Circle(double radius) throws Exception {
         if (radius > 0) {
             this.radius = radius;
         } else
-            throw new Except(1, "Error creating circle");
+            throw new Exception("Error creating circle");
     }
 }
 
-class Triangle extends Figure {
+class Triangle implements Figure {
     private double a;
 
     private double b;
@@ -58,17 +58,17 @@ class Triangle extends Figure {
         return c;
     }
 
-    Triangle(double a, double b, double c) throws Except {
+    Triangle(double a, double b, double c) throws Exception {
         if (a > 0 && b > 0 && c > 0 && (a + b) > c && (a + c) > b && (b + c) > a) {
             this.a = a;
             this.b = b;
             this.c = c;
         } else
-            throw new Except(1, "Error creating triangle");
+            throw new Exception("Error creating triangle");
     }
 }
 
-class Ring extends Figure {
+class Ring implements Figure {
     private double r;
 
     private double R;
@@ -89,7 +89,7 @@ class Ring extends Figure {
         return R;
     }
 
-    Ring(double r, double R) throws Except {
+    Ring(double r, double R) throws Exception {
         if (r > 0 && R > 0 && r != R) {
             if (r > R) {
                 this.r = R;
@@ -99,6 +99,6 @@ class Ring extends Figure {
                 this.R = R;
             }
         } else
-            throw new Except(1, "Error creating ring");
+            throw new Exception("Error creating ring");
     }
 }
