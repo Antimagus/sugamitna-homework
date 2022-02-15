@@ -8,7 +8,7 @@ void Server::Func()
 
 Server::Server()
 {
-    a = 2;
+    a = 10;
     b = 10;
 }
 
