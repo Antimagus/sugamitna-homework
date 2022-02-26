@@ -1,15 +1,19 @@
 import java.util.Scanner;
 
+import Figure.Figure;
+import Figure.Objects2D.Circle;
+import Figure.Objects3D.Cylinder;
+
 class Main {
     public static void main(String[] args) {
         Figure figure;
         Cylinder<Figure> cylinder;
 
-        System.out.println("Введите радиус круга и высоту:");
+        System.out.println("������� ������ ����� � ������:");
         Scanner in = new Scanner(System.in);
-        System.out.print("Радиус: ");
+        System.out.print("r: ");
         double r = in.nextDouble();
-        System.out.print("Высота: ");
+        System.out.print("h: ");
         double h = in.nextDouble();
         in.close();
 
@@ -25,6 +29,6 @@ class Main {
             System.out.println(exception.getMessage());
             return;
         }
-        System.out.println("Объем цилиндра: " + cylinder.calcVolume());
+        System.out.println("V: " + cylinder.calcVolume());
     }
 }
