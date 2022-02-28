@@ -4,11 +4,11 @@ import static java.lang.Math.sqrt;
 import Figure.Figure;
 
 public class Triangle implements Figure {
-    private double a;
+    protected double a;
 
-    private double b;
+    protected double b;
 
-    private double c;
+    protected double c;
 
     public double calcArea() {
         double p = calcPerimeter() / 2;
