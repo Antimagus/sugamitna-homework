@@ -1,8 +1,9 @@
-interface Figure3D {
-    double calcVolume();
-}
+package Figure.Objects3D;
 
-class Cylinder<typeFigure> implements Figure3D {
+import Figure.Figure;
+import Figure.Figure3D;
+
+public class Cylinder <typeFigure> implements Figure3D{
     private typeFigure f;
 
     private double h;
@@ -18,4 +19,4 @@ class Cylinder<typeFigure> implements Figure3D {
     public double calcVolume() {
         return h * ((Figure) f).calcArea();
     }
-};
+}
