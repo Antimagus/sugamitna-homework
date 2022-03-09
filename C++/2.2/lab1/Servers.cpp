@@ -11,7 +11,7 @@ void Server::Func2()
     std::cout << "Server 1 Interface 2" << std::endl;
 }
 
-int Server::QueryInterface(int iid, void** ppv)
+H_RESULT Server::QueryInterface(I_ID iid, void** ppv)
 {
     switch (iid)
     {
@@ -48,7 +48,7 @@ void Server2::Func2()
     std::cout << "Server 2 Interface 2" << std::endl;
 }
 
-int Server2::QueryInterface(int iid, void** ppv)
+H_RESULT Server2::QueryInterface(I_ID iid, void** ppv)
 {
     switch (iid)
     {
@@ -75,23 +75,26 @@ int Server2::QueryInterface(int iid, void** ppv)
     }
 }
 
-I_Unknown* CreateInstance(int serverID)
+H_RESULT CreateInstance(CLS_ID clsid, I_ID iid, void** ppv)
 {
-    switch (serverID)
+    I_Unknown* server;
+    switch (clsid)
     {
         case 1:
         {
-            Server* server = new Server();
-            return (I_Unknown*) (IServer*) server;
+            server = (I_Unknown*) (IServer*) new Server();
+            break;
         }
         case 2:
         {
-            Server2* server = new Server2();
-            return (I_Unknown*) (IServer*) server;
+            server = (I_Unknown*) (IServer2*) new Server2();
+            break;
         }
         default:
         {
-            return NULL;
+            return 1;
         }
     }
+    if(server->QueryInterface(iid, ppv) == -1) return 2;
+    return 0;
 }
