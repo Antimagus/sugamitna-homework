@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Scene xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
+    <AnchorPane prefHeight="600.0" prefWidth="600.0">
+      <children>
+         <CheckBox fx:id="ch1" layoutX="436.0" layoutY="83.0" mnemonicParsing="false" onAction="#onCh1" />
+         <CheckBox fx:id="ch2" layoutX="436.0" layoutY="136.0" mnemonicParsing="false" onAction="#onCh2" />
+         <CheckBox fx:id="ch3" layoutX="436.0" layoutY="187.0" mnemonicParsing="false" onAction="#onCh3" />
+         <ProgressIndicator fx:id="g1" layoutX="146.0" layoutY="80.0" progress="0.75" visible="false" />
+         <ProgressBar fx:id="g2" layoutX="60.0" layoutY="127.0" prefWidth="200.0" progress="0.75" visible="false" />
+         <PasswordField fx:id="g3" layoutX="85.0" layoutY="175.0" promptText="пароль" visible="false" />
+      </children></AnchorPane>
+</Scene>
