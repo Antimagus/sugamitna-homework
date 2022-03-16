@@ -1,4 +1,6 @@
-# C++
+[![](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](C++/)
+[![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](Java/)
+[![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](Python/)
 ---
 > Первый курс
 * [1. Одномерные динамические массивы](C++/1/lab1)
@@ -19,14 +21,12 @@
 * [7. Исключения](C++/2.1/lab7)
 * [8. Шаблоны: Базовая концепция](C++/2.1/lab8)
 ---
-# Python
----
-> Второй курс
 * [1. Введение](Python/2.2/lab1)
 * [2. Списки и строки](Python/2.2/lab2)
 * [3. Множество](Python/2.2/lab2.2)
 * [4. Словари](Python/2.2/lab4)
+* [5. Функции](Python/2.2/lab5)
 ---
-# Java
-> Второй курс
 * [1. Фигуры](Java/2.2/lab1)
+---
+* [1. Базовая часть компонентов](C++/2.2/lab1)
