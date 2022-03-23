@@ -3,10 +3,15 @@
 
 class Server : public IServer, public IServer2
 {
+private:
+    int countReference = 0;
 public:
     void Func();
     void Func2();
     H_RESULT QueryInterface(I_ID iid, void** ppv);
+    U_LONG AddRef();
+    U_LONG Release();
+    ~Server();
 };
 
 class Server2 : public IServer, public IServer2
@@ -17,6 +22,11 @@ public:
     H_RESULT QueryInterface(I_ID iid, void** ppv);
 };
 
+Server::~Server()
+{
+    std::cout << "Delete server" << std::endl;
+}
+
 void Server::Func()
 {
     std::cout << "Server 1 Interface 1" << std::endl;
@@ -25,6 +35,24 @@ void Server::Func()
 void Server::Func2()
 {
     std::cout << "Server 1 Interface 2" << std::endl;
+}
+
+U_LONG Server::AddRef() 
+{
+    countReference++;
+    std::cout << "Add reference: " << countReference << std::endl;
+    return countReference;
+}
+
+U_LONG Server::Release() 
+{
+    countReference--;
+    std::cout << "Delete reference: " << countReference << std::endl;
+    if(countReference == 0)
+    {
+        delete this;
+    }
+    return countReference;
 }
 
 H_RESULT Server::QueryInterface(I_ID iid, void** ppv)
@@ -52,6 +80,7 @@ H_RESULT Server::QueryInterface(I_ID iid, void** ppv)
             return E_NOINTERFACE;
         }
     }
+    AddRef();
     return S_OK;
 }
 
@@ -77,6 +106,7 @@ H_RESULT IServerFactory::QueryInterface(I_ID iid, void** ppv)
         *ppv = 0;
         return E_NOINTERFACE;
     }
+    AddRef();
     return S_OK;
 }
 
