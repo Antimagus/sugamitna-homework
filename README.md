@@ -26,6 +26,7 @@
 * [3. Множество](Python/2.2/lab2.2)
 * [4. Словари](Python/2.2/lab4)
 * [5. Функции](Python/2.2/lab5)
+* [6. Функции высшего порядка, итераторы, генераторы](Python/2.2/lab6)
 ---
 [![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](Java/)
 ---
