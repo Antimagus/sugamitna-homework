@@ -1,4 +1,4 @@
-public class Main {
+public class Task1 {
     
     public static void main(String[] args) {
         Printer p = new Printer();
