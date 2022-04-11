@@ -1,6 +1,3 @@
-from asyncio.windows_events import NULL
-
-
 class Weapon:
     def __init__(self, name, damage, range):
         self.name = name
