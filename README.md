@@ -18,6 +18,7 @@
 * [8. Шаблоны: Базовая концепция](C++/2.1/lab8)
 ---
 * [1. Базовая часть компонентов](C++/2.2/lab1)
+* [2. Запрос интерфейса. Фабрика класса. Подсчет ссылок. Обертка на клиенте. Собственный компонент](C++/2.2/lab2)
 ---
 [![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](Python/)
 ---
@@ -27,8 +28,12 @@
 * [4. Словари](Python/2.2/lab4)
 * [5. Функции](Python/2.2/lab5)
 * [6. Функции высшего порядка, итераторы, генераторы](Python/2.2/lab6)
+* [7. ООП](Python/2.2/lab7)
 ---
 [![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](Java/)
 ---
 * [1. Фигуры](Java/2.2/lab1)
+* [2. ГПИ](Java/2.2/gui)
+* [3. Потоки](Java/2.2/thread)
+* [4. Сети](Java/2.2/net)
 ---
