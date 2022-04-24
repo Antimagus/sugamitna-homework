@@ -120,7 +120,7 @@ U__LONG ColorFactory::Release()
     }
     return countReference;
 }
-extern "C" H__RESULT __declspec(dllexport) ColorFactory::CreateInstance(I__ID iid, void** ppv, int r, int g, int b)
+H__RESULT ColorFactory::CreateInstance(I__ID iid, void** ppv, int r, int g, int b)
 {
     Color* color = new Color(r, g, b);
     if (color == 0)
