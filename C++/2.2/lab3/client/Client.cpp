@@ -1,30 +1,36 @@
-#include "../component/Component.h"
-#include <iostream>
 #include <windows.h>
+#include <iostream>
+#include "../manager/Manager.h"
+#include "../component/Component.h"
 
 using namespace std;
-
 typedef H__RESULT (*GetClass) (CLS__ID clsid, I__ID iid, void** ppv);
 
-int main(int argc, char const *argv[])
+bool getObject(GetClass &GetObjectClass) {
+    HINSTANCE result = LoadLibrary("Manager.dll");
+    if(result == NULL) return false;
+    GetObjectClass = (GetClass) GetProcAddress(result, "Get__ClassObject");
+    if(!GetObjectClass) return false;
+    return true;
+}
+
+int main() 
 {
-    GetClass f;
-    HINSTANCE h = LoadLibrary("build/Component.dll");
-    if (h == NULL)
-    {
-        cout << "No dll!!!" << endl;
-        return 0;
-    }
-    f = (GetClass) GetProcAddress(h, "Get__ClassObject");
-    if (!f)
-    {
-        cout << "No dll function" << endl;
-        return 0;
-    } 
-    ColorFactory* ppv;
-    IPrint* iP;
-    f(CLSIDColor, IID__IClassFactory, (void**)&ppv);
-    ppv->CreateInstance(IID__IPrint, (void**)&iP, 120, 230, 34);
-    iP->print();
-    return 0;
+    GetClass GetObjectClass;
+    if(!getObject(GetObjectClass)) return 0;
+
+    IPrint* ip;
+    IMix* im;
+    IColorFactory* factory;
+
+    GetObjectClass(CLSIDColor, IID__IClassFactory, (void**)&factory);
+    factory->CreateInstance(IID__IPrint, (void**)&ip);
+    factory->Release();
+
+    ip->print();
+    ip->QueryInterface(IID__IMix, (void**)&im);
+    im->mix(120, 120, 120);
+    ip->print();
+    ip->Release();
+    im->Release();
 }

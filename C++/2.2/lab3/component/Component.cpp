@@ -1,12 +1,109 @@
-#include "Component.h"
 #include <iostream>
 #include <windows.h>
+#include <fstream>
+#include <sstream>
+#include "Component.h"
 
-extern "C" H__RESULT Get__ClassObject(CLS__ID clsid, I__ID iid, void** ppv);
+using namespace std;
+
+class ColorFactory : public IColorFactory
+{
+    private:
+        int countReference = 0;
+
+    public:
+        H__RESULT CreateInstance(I__ID iid, void** ppv);
+        H__RESULT QueryInterface(I__ID iid, void** ppv);
+        U__LONG AddRef();
+        U__LONG Release();
+        ColorFactory();
+};
+
+TCHAR path[MAX_PATH];
+
+bool deletePath()
+{
+    ifstream file;
+    ofstream file_out;
+    file.open("C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data.txt");
+    if(!file) 
+    {
+        file.close();
+        return false;
+    }
+
+    file_out.open("C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data_new.txt");
+    string str;
+    CLS__ID id;
+    
+    while(getline(file, str))
+    {
+        istringstream iis(str, istringstream::in);
+        iis >> id;
+        if(id != CLSIDColor)
+        {
+            file_out << str;
+        }
+    }
+    file.close();
+    file_out.close();
+    remove("C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data.txt");
+    rename("C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data_new.txt", 
+    "C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data.txt");
+    return true;
+}
+
+bool setPath() 
+{
+    deletePath();
+    ofstream file("C:\\Users\\dasew\\Desktop\\Homework\\C++\\2.2\\lab3\\manager\\Data.txt", std::ios_base::in | std::ios_base::app);
+    if(!file) 
+    {
+        file.close();
+        return false;
+    }
+    
+    file << "\n" << CLSIDColor << " " << path;
+    file.close();
+    return true;
+}
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
+    GetModuleFileName(hinstDLL, path, MAX_PATH);
     return true;
+}
+
+STDAPI __declspec(dllexport) DllCanUnloadNow()
+{
+    return S_OK;
+}
+
+STDAPI __declspec(dllexport) DllRegisterServer()
+{
+    if(setPath()) return S_OK;
+    else return S_FALSE;
+}
+
+STDAPI __declspec(dllexport) DllUnregisterServer()
+{
+    if(deletePath()) return S_OK;
+    else return S_FALSE;
+}
+
+extern "C" H__RESULT __declspec(dllexport) Get__ClassObject(CLS__ID clsid, I__ID iid, void** ppv)
+{
+    if(clsid != CLSIDColor)
+    {
+        return E__CLASSNOTAVAILABLE;
+    }
+    ColorFactory* factory = new ColorFactory();
+    if(factory == 0) 
+    {
+        return E_OUTOFMEMORY;
+    }
+    H__RESULT res = factory->QueryInterface(iid, ppv);
+    return res;
 }
 
 class Color : public IMix, IPrint
@@ -45,7 +142,7 @@ void Color::mix(int r, int g, int b)
     {
         this->r = (this->r + r) / 2;
         this->g = (this->g + g) / 2;
-        this->g = (this->g + g) / 2;
+        this->b = (this->b + b) / 2;
     } else throw 0;
 
 }
@@ -97,13 +194,10 @@ H__RESULT Color::QueryInterface(I__ID iid, void** ppv)
         }
     }
     AddRef();
-    return S_OK;
+    return S__OK;
 }
 
-ColorFactory::ColorFactory()
-{
-
-}
+ColorFactory::ColorFactory() {}
 
 U__LONG ColorFactory::AddRef() 
 {
@@ -120,12 +214,13 @@ U__LONG ColorFactory::Release()
     }
     return countReference;
 }
-H__RESULT ColorFactory::CreateInstance(I__ID iid, void** ppv, int r, int g, int b)
+
+H__RESULT ColorFactory::CreateInstance(I__ID iid, void** ppv)
 {
-    Color* color = new Color(r, g, b);
+    Color* color = new Color(0, 0, 0);
     if (color == 0)
     {
-        return E_OUTOFMEMORY;
+        return E__OUTOFMEMORY;
     }
     H__RESULT res = color->QueryInterface(iid, ppv);
     return res;
@@ -140,31 +235,32 @@ H__RESULT ColorFactory::QueryInterface(I__ID iid, void** ppv)
     else
     {
         *ppv = 0;
-        return E_NOINTERFACE;
+        return E__NOINTERFACE;
     }
     AddRef();
-    return S_OK;
+    return S__OK;
 }
 
-extern "C" H__RESULT __declspec(dllexport) Get__ClassObject(CLS__ID clsid, I__ID iid, void** ppv)
+//________________Это не должно тут быть, но пусть пока побудет________________________________
+
+class ColorWrapper
 {
-    if(clsid != CLSIDColor)
-    {
-        return E_CLASSNOTAVAILABLE;
-    }
-    ColorFactory* factory = new ColorFactory();
-    if(factory == 0) 
-    {
-        return E_OUTOFMEMORY;
-    }
-    H__RESULT res = factory->QueryInterface(iid, ppv);
-    return res;
-}
+    private:
+        ColorFactory* factory;
+        IMix* iMix;
+        IPrint* iPrint;
+
+    public:
+        void print();
+        void mix(int r, int g, int b);
+        ColorWrapper(int r, int g, int b);
+        ~ColorWrapper();
+};
 
 ColorWrapper::ColorWrapper(int r, int g, int b)
 {
     Get__ClassObject(CLSIDColor, IID__IClassFactory, (void**)&factory);
-    factory->CreateInstance(IID__IMix, (void**)&iMix, r, g, b);
+    factory->CreateInstance(IID__IMix, (void**)&iMix);
     factory->Release();
     iMix->QueryInterface(IID__IPrint, (void**)&iPrint);
 }
@@ -184,3 +280,5 @@ void ColorWrapper::mix(int r, int g, int b)
 {
     iMix->mix(r, g, b);
 }
+
+//_________________________________________________________________________________________

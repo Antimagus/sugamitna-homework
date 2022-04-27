@@ -1,12 +1,14 @@
+#pragma once
 typedef int H__RESULT;
 typedef int I__ID;
 typedef int CLS__ID;
 typedef int U__LONG;
 
-const H__RESULT S_OK = 1111;
-const H__RESULT E_NOINTERFACE = -1;
-const H__RESULT E_OUTOFMEMORY = -2;
-const H__RESULT E_CLASSNOTAVAILABLE = -3;
+const H__RESULT S__OK = 1111;
+const H__RESULT S__FALSE = -1111;
+const H__RESULT E__NOINTERFACE = -1;
+const H__RESULT E__OUTOFMEMORY = -2;
+const H__RESULT E__CLASSNOTAVAILABLE = -3;
 
 class I__Unknown {
     public:
