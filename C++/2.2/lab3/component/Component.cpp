@@ -6,6 +6,9 @@
 
 using namespace std;
 
+static int g_cComponents = 0;
+TCHAR path[MAX_PATH];
+
 class ColorFactory : public IColorFactory
 {
     private:
@@ -18,8 +21,6 @@ class ColorFactory : public IColorFactory
         U__LONG Release();
         ColorFactory();
 };
-
-TCHAR path[MAX_PATH];
 
 bool deletePath()
 {
@@ -76,7 +77,12 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 STDAPI __declspec(dllexport) DllCanUnloadNow()
 {
-    return S_OK;
+    if(g_cComponents) {
+        return S_FALSE;
+    }
+    else {
+        return S_OK;
+    }
 }
 
 STDAPI __declspec(dllexport) DllRegisterServer()
@@ -210,6 +216,7 @@ U__LONG ColorFactory::Release()
     countReference--;
     if(countReference == 0)
     {
+        g_cComponents--;
         delete this;
     }
     return countReference;
@@ -223,6 +230,7 @@ H__RESULT ColorFactory::CreateInstance(I__ID iid, void** ppv)
         return E__OUTOFMEMORY;
     }
     H__RESULT res = color->QueryInterface(iid, ppv);
+    g_cComponents++;
     return res;
 }
 

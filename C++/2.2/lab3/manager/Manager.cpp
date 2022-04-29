@@ -61,3 +61,8 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
     return true;
 }
+
+STDAPI __declspec(dllexport) DllCanUnloadNow()
+{
+    return FreeLibrary(result);
+}

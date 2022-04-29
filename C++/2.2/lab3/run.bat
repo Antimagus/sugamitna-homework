@@ -9,4 +9,4 @@ g++ client/Client.cpp -o build/Main.exe
 regsvr32 build/Component.dll
 
 @rem Удаление компонента из реестра
-regsvr32 /u build/Component.dll
+@rem regsvr32 /u build/Component.dll

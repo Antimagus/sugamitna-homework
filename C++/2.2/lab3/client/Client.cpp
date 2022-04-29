@@ -5,9 +5,10 @@
 
 using namespace std;
 typedef H__RESULT (*GetClass) (CLS__ID clsid, I__ID iid, void** ppv);
+HINSTANCE result;
 
 bool getObject(GetClass &GetObjectClass) {
-    HINSTANCE result = LoadLibrary("Manager.dll");
+    result = LoadLibrary(TEXT("Manager.dll"));
     if(result == NULL) return false;
     GetObjectClass = (GetClass) GetProcAddress(result, "Get__ClassObject");
     if(!GetObjectClass) return false;
@@ -33,4 +34,6 @@ int main()
     ip->print();
     ip->Release();
     im->Release();
+
+    FreeLibrary(result);
 }
