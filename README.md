@@ -1,5 +1,3 @@
-![GitHub](https://img.shields.io/tokei/lines/github/lunfox/homework?style=for-the-badge)
-
 [![](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](C++/)
 ---
 * [1. Одномерные динамические массивы](C++/1/lab1)
@@ -21,6 +19,7 @@
 ---
 * [1. Базовая часть компонентов](C++/2.2/lab1)
 * [2. Запрос интерфейса. Фабрика класса. Подсчет ссылок. Обертка на клиенте. Собственный компонент](C++/2.2/lab2)
+* [3. Менеджер компонентов](C++/2.2/lab3)
 ---
 [![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](Python/)
 ---
@@ -31,6 +30,7 @@
 * [5. Функции](Python/2.2/lab5)
 * [6. Функции высшего порядка, итераторы, генераторы](Python/2.2/lab6)
 * [7. ООП](Python/2.2/lab7)
+* [8. Numpy, файлы, csv](Python/2.2/lab8)
 ---
 [![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](Java/)
 ---
