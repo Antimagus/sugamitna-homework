@@ -1,2 +1,8 @@
-
-101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab3\build\Component.dll
+102 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component2.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\build\Component.dll
+101 C:\Users\dasew\Desktop\Homework\C++\2.2\lab4\test\build\ColorReverse.dll
