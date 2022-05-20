@@ -20,6 +20,7 @@
 * [1. Базовая часть компонентов](C++/2.2/lab1)
 * [2. Запрос интерфейса. Фабрика класса. Подсчет ссылок. Обертка на клиенте. Собственный компонент](C++/2.2/lab2)
 * [3. Менеджер компонентов](C++/2.2/lab3)
+* [4. Включение](C++/2.2/lab4)
 ---
 [![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](Python/)
 ---
@@ -31,6 +32,8 @@
 * [6. Функции высшего порядка, итераторы, генераторы](Python/2.2/lab6)
 * [7. ООП](Python/2.2/lab7)
 * [8. Numpy, файлы, csv](Python/2.2/lab8)
+* [9. Боты для мессенджеров](Python/2.2/lab9)
+* [10. Сбор данных в интернете](Python/2.2/lab10)
 ---
 [![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](Java/)
 ---
