@@ -12,9 +12,12 @@ int main()
     IClassFactory* factory = NULL;
     HRESULT result = CoCreateInstance(CLSIDColor, NULL, CLSCTX_INPROC_SERVER, IID_IPrint, (void**)&iPrint);
     if (!(SUCCEEDED(result))) {
-        std::cout << "error" << std::endl;
-        return 0;
+        std::stringstream ss;
+        ss << "Failed to Initialize COM. Error code = 0x" << std::hex << result << std::endl;
+        std::cout << ss.str();
+        return -1;
     }
     iPrint->print();
+    iPrint->Release();
     CoUninitialize();
 }
